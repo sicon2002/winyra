@@ -50,7 +50,7 @@
                             content["title"] = "[" + item.Category + "]" + item.TaskName;
                             content["start"] = item.CheckDate;
 
-                            if(item.Status == "NO"){
+                            if (item.Status == 0) {
                                 content["textColor"] = "#000000";
                                 content["borderColor"] = "#996600";
                                 content["backgroundColor"] = "#FFCC00";
@@ -76,16 +76,16 @@
                     $("#taskDetail").html("");
 
                     var tmpStr = "";
-                    tmpStr += "<table border='1' width='100%'>";
-                    tmpStr += "<tr style='background-color:#99CCCC;'>";
-                    tmpStr += "<td style='font-weight:bold'>类别</td>";
-                    tmpStr += "<td style='font-weight:bold'>子类</td>";
-                    tmpStr += "<td style='font-weight:bold'>任务名称</td>";
-                    tmpStr += "<td style='font-weight:bold'>分数</td>";
-                    tmpStr += "<td style='font-weight:bold'>状态</td>";
-                    tmpStr += "<td style='font-weight:bold'>检测时间</td>";
-                    tmpStr += "<td style='font-weight:bold'>操作</td>";
-                    tmpStr += "</tr>";
+                    tmpStr += "<table class='table table-head-bg-primary mt-4'>";
+                    tmpStr += "<thead><tr>";
+                    tmpStr += "<th th scope='col'>类别</th>";
+                    tmpStr += "<th th scope='col'>子类</th>";
+                    tmpStr += "<th th scope='col'>任务名称</th>";
+                    tmpStr += "<th th scope='col'>分数</th>";
+                    tmpStr += "<th th scope='col'>状态</th>";
+                    tmpStr += "<th th scope='col'>检测时间</th>";
+                    tmpStr += "<th th scope='col'>操作</th>";
+                    tmpStr += "</tr></thead><tbody>";
                     $.each(dataList, function(i, item) {
                         if (item.FromDate == e.dateStr) {
                             tmpStr += "<tr>";
@@ -93,10 +93,10 @@
                             tmpStr += "<td>" + item.SubCategory + "</td>";
                             tmpStr += "<td>" + item.TaskName + "</td>";
                             tmpStr += "<td>" + item.Point + "</td>";
-                            tmpStr += "<td>" + (item.Status=="YES"?"已完成":"未完成")  + "</td>";
+                            tmpStr += "<td>" + (item.Status == "1" ? "已完成" : "未完成") + "</td>";
                             tmpStr += "<td>" + item.CheckDate + "</td>";
-                            tmpStr += "<td><button>完成</button></td>";
-                            tmpStr += "</tr>";
+                            tmpStr += "<td><button onclick='finish(\"" + item.UserTaskNo + "\")'>" + (item.Status == "1" ? "哦，还没完成" : "我完成了") + "</button></td>";
+                            tmpStr += "</tr></tbody>";
                         }
                     });
                     tmpStr += "</table>";
@@ -106,6 +106,14 @@
 
             calendar.render();
         });
+
+        var finish = function(utid) {
+            console.log(utid);
+
+            $.get("http://localhost:5000/handleUserTask/" + utid + "", function(data) {
+                $("#calendar").fullCalendar("updateEvent", events);
+            });
+        };
     </script>
 </head>
 
