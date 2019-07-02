@@ -14,7 +14,7 @@ def getTaskList(my_no, from_date):
 
 	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
-	sqlString = "SELECT Tasks.TaskNo, Category, SubCategory, TaskName, TaskDesc, Tasks.Point, \
+	sqlString = "SELECT Tasks.TaskNo, Category, SubCategory, TaskName, TaskDesc, UserTasks.Status, Tasks.Point, \
 					DATE_FORMAT(FromDate, '%Y-%m-%d') FromDate, \
 					DATE_FORMAT(ToDate, '%Y-%m-%d') ToDate, \
 					DATE_FORMAT(CheckDate,'%Y-%m-%d') CheckDate \
@@ -31,7 +31,7 @@ def getTaskList(my_no, from_date):
 
 	payload = []
 
-	for (TaskNo, Category, SubCategory, TaskName, TaskDesc, Point, FromDate, ToDate, CheckDate) in cursor:
+	for (TaskNo, Category, SubCategory, TaskName, TaskDesc, Status, Point, FromDate, ToDate, CheckDate) in cursor:
 		content = dict()
 		content["TaskNo"] = TaskNo
 		content["Category"] = Category
@@ -42,6 +42,7 @@ def getTaskList(my_no, from_date):
 		content["FromDate"] = FromDate
 		content["ToDate"] = ToDate
 		content["CheckDate"] = CheckDate
+		content["Status"] = Status
 		payload.append(content)
 	cursor.close()
 	conn.close()

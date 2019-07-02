@@ -50,10 +50,15 @@
                             content["title"] = "[" + item.Category + "]" + item.TaskName;
                             content["start"] = item.CheckDate;
 
-                            content["textColor"] = "#000000";
-                            content["borderColor"] = "#996600";
-                            content["backgroundColor"] = "#FFCC00";
-
+                            if(item.Status == "NO"){
+                                content["textColor"] = "#000000";
+                                content["borderColor"] = "#996600";
+                                content["backgroundColor"] = "#FFCC00";
+                            } else {
+                                content["textColor"] = "#000000";
+                                content["borderColor"] = "#996600";
+                                content["backgroundColor"] = "#88FF88";
+                            }
                             events.push(content);
                         });
                         // console.log(JSON.stringify(events));
@@ -88,7 +93,7 @@
                             tmpStr += "<td>" + item.SubCategory + "</td>";
                             tmpStr += "<td>" + item.TaskName + "</td>";
                             tmpStr += "<td>" + item.Point + "</td>";
-                            tmpStr += "<td>未完成</td>";
+                            tmpStr += "<td>" + (item.Status=="YES"?"已完成":"未完成")  + "</td>";
                             tmpStr += "<td>" + item.CheckDate + "</td>";
                             tmpStr += "<td><button>完成</button></td>";
                             tmpStr += "</tr>";
