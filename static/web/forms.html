@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="assets/css/ready.css">
     <link rel="stylesheet" href="assets/css/demo.css">
 
-    
+
     <link href='../libs/fullcalendar-4.2.0/packages/core/main.css' rel='stylesheet' />
     <link href='../libs/fullcalendar-4.2.0/packages/daygrid/main.css' rel='stylesheet' />
 
@@ -32,40 +32,40 @@
     </style>
     <script>
         $(document).ready(function() {
-        
+
             PageInit();
         });
 
         var TaskList = [];
         var PageInit = function() {
-                var userNo = localStorage.USER_NO;
+            var userNo = localStorage.USER_NO;
 
-                var total = 0;
-                var done = 0;
-                var pendding = 0;
-                $.get("http://localhost:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
-                    
-                    $("#taskblock").html("");
-                    $("#taskblocktitle").html("");
-                    $.each(data, function(i, item) {
-                        TaskList[item.TaskNo] = item;
+            var total = 0;
+            var done = 0;
+            var pendding = 0;
+            $.get("http://localhost:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
 
-                        var tmpSpan = "";
-                        tmpSpan = "<div onclick='showTaskDetail(\""+ item.TaskNo +"\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>&nbsp;</div>"
+                $("#taskblock").html("");
+                $("#taskblocktitle").html("");
+                $.each(data, function(i, item) {
+                    TaskList[item.TaskNo] = item;
 
-                        $("#taskblock").append(tmpSpan);
+                    var tmpSpan = "";
+                    tmpSpan = "<div onclick='showTaskDetail(\"" + item.TaskNo + "\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>&nbsp;</div>"
 
-                        total += 1;
-                        if (item.Status == 1)
-                            done += 1;
-                        else
-                            pendding += 1;
-                    });
+                    $("#taskblock").append(tmpSpan);
 
-                    var htmlStr = "总任务数量：" + total + "，已完成：" + done + "，未完成：" + pendding + "，完成：" + (100 * done / total).toFixed(2) + "%，继续加油哦！";
-                    $("#taskblocktitle").append(htmlStr);
+                    total += 1;
+                    if (item.Status == 1)
+                        done += 1;
+                    else
+                        pendding += 1;
                 });
-            };
+
+                var htmlStr = "总任务数量：" + total + "，已完成：" + done + "，未完成：" + pendding + "，完成：" + (100 * done / total).toFixed(2) + "%，继续加油哦！";
+                $("#taskblocktitle").append(htmlStr);
+            });
+        };
 
         var finish = function(utid) {
             console.log(utid);
@@ -76,23 +76,23 @@
             });
         };
 
-        var showTaskDetail = function(obj){
-                console.log(TaskList[obj].TaskName);
-                console.log(JSON.stringify(TaskList[obj]));
+        var showTaskDetail = function(obj) {
+            console.log(TaskList[obj].TaskName);
+            console.log(JSON.stringify(TaskList[obj]));
 
-                var task = TaskList[obj];
-                var htmlStr = "任务详情：";
-                htmlStr += "<ul>";
-                htmlStr += "<li>编号：" + task.TaskNo + "</li>";
-                htmlStr += "<li>类别：" + task.Category + "</li>";
-                htmlStr += "<li>子类：" + task.SubCategory + "</li>";
-                htmlStr += "<li>名称：" + task.TaskName + "</li>";
-                htmlStr += "<li>时间：" + task.CheckDate + "</li>";
-                htmlStr += "<li>状态：" + (task.Status == "1" ? "已完成" : "未完成") + "</li>";
-                htmlStr += "</ul>";
-                htmlStr += "<button class='navbar-toggler sidenav-toggler ml-auto' onclick='finish(\"" + task.UserTaskNo + "\")'>" + (task.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>";
-                $("#taskDetail").html(htmlStr);
-            };
+            var task = TaskList[obj];
+            var htmlStr = "任务详情：";
+            htmlStr += "<ul>";
+            htmlStr += "<li>编号：" + task.TaskNo + "</li>";
+            htmlStr += "<li>类别：" + task.Category + "</li>";
+            htmlStr += "<li>子类：" + task.SubCategory + "</li>";
+            htmlStr += "<li>名称：" + task.TaskName + "</li>";
+            htmlStr += "<li>时间：" + task.CheckDate + "</li>";
+            htmlStr += "<li>状态：" + (task.Status == "1" ? "已完成" : "未完成") + "</li>";
+            htmlStr += "</ul>";
+            htmlStr += "<button class='navbar-toggler sidenav-toggler ml-auto' onclick='finish(\"" + task.UserTaskNo + "\")'>" + (task.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>";
+            $("#taskDetail").html(htmlStr);
+        };
     </script>
 </head>
 

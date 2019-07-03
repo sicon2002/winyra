@@ -42,7 +42,7 @@ def getTaskList(my_no, from_date):
 				WHERE IsValid = 1 \
 				AND UserTasks.UserNo = "+ my_no +" \
 				AND FromDate BETWEEN date_add('"+ from_date +"', interval -10 day) AND date_add('"+ from_date +"', interval 100 day) \
-				ORDER BY FromDate \
+				ORDER BY FromDate, UserTaskNo \
 				LIMIT 1, 500"
 
 	query = (sqlString)
