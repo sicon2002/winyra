@@ -7,7 +7,8 @@ import json
 app = Flask(__name__ ,static_url_path='/static')
 @app.route('/getStatic')
 def getStatic():
-	return render_template('dog.html')
+	item2 = {"name":"FANNY", "address":"china"}
+	return render_template('dog.html', obj=item2)
 
 @app.route('/handleUserTask/<usertask_no>')
 def handleUserTask(usertask_no):

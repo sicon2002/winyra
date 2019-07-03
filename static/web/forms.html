@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/css/ready.css">
     <link rel="stylesheet" href="assets/css/demo.css">
+
+    
+    <link href='../libs/fullcalendar-4.2.0/packages/core/main.css' rel='stylesheet' />
+    <link href='../libs/fullcalendar-4.2.0/packages/daygrid/main.css' rel='stylesheet' />
+
     <script src='../js/jquery-3.4.1.js'></script>
     <style>
         .tblock {
@@ -27,18 +32,26 @@
     </style>
     <script>
         $(document).ready(function() {
-            var PageInit = function() {
+        
+            PageInit();
+        });
+
+        var TaskList = [];
+        var PageInit = function() {
                 var userNo = localStorage.USER_NO;
 
                 var total = 0;
                 var done = 0;
                 var pendding = 0;
                 $.get("http://localhost:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
+                    
+                    $("#taskblock").html("");
+                    $("#taskblocktitle").html("");
                     $.each(data, function(i, item) {
-                        var tmpSpan = "";
-                        tmpSpan = "<div title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>&nbsp;</div>"
+                        TaskList[item.TaskNo] = item;
 
-                        console.log(tmpSpan);
+                        var tmpSpan = "";
+                        tmpSpan = "<div onclick='showTaskDetail(\""+ item.TaskNo +"\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>&nbsp;</div>"
 
                         $("#taskblock").append(tmpSpan);
 
@@ -52,10 +65,34 @@
                     var htmlStr = "总任务数量：" + total + "，已完成：" + done + "，未完成：" + pendding + "，完成：" + (100 * done / total).toFixed(2) + "%，继续加油哦！";
                     $("#taskblocktitle").append(htmlStr);
                 });
-            }
+            };
 
-            PageInit();
-        });
+        var finish = function(utid) {
+            console.log(utid);
+
+            $.get("http://localhost:5000/handleUserTask/" + utid + "", function(data) {
+                // $("#calendar").fullCalendar("updateEvent", events);
+                PageInit();
+            });
+        };
+
+        var showTaskDetail = function(obj){
+                console.log(TaskList[obj].TaskName);
+                console.log(JSON.stringify(TaskList[obj]));
+
+                var task = TaskList[obj];
+                var htmlStr = "任务详情：";
+                htmlStr += "<ul>";
+                htmlStr += "<li>编号：" + task.TaskNo + "</li>";
+                htmlStr += "<li>类别：" + task.Category + "</li>";
+                htmlStr += "<li>子类：" + task.SubCategory + "</li>";
+                htmlStr += "<li>名称：" + task.TaskName + "</li>";
+                htmlStr += "<li>时间：" + task.CheckDate + "</li>";
+                htmlStr += "<li>状态：" + (task.Status == "1" ? "已完成" : "未完成") + "</li>";
+                htmlStr += "</ul>";
+                htmlStr += "<button class='navbar-toggler sidenav-toggler ml-auto' onclick='finish(\"" + task.UserTaskNo + "\")'>" + (task.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>";
+                $("#taskDetail").html(htmlStr);
+            };
     </script>
 </head>
 
@@ -290,9 +327,10 @@
                                     </div>
                                 </div>
                                 <div id="taskblock" class="card-body">
-
                                 </div>
-
+                                <hr />
+                                <div id="taskDetail" class="card-body">
+                                </div>
                             </div>
                         </div>
                     </div>
