@@ -10,6 +10,40 @@ def getStatic():
 	item2 = {"name":"FANNY", "address":"china"}
 	return render_template('dog.html', obj=item2)
 
+@app.route('/getTasksByDate')
+def getTasksByDate():
+
+	#链接数据库
+	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
+	cursor = conn.cursor()
+	#从数据库中读取数据的脚本
+	sqlString = "SELECT UserTaskNo, Category, SubCategory, TaskName, Tasks.Point, UserTasks.Status  FROM UserTasks \
+		INNER JOIN Tasks ON UserTasks.TaskNo = Tasks.TaskNo \
+		WHERE UserNo = 23 \
+		AND FromDate = '2019-07-05'"
+
+	#开始读取数据
+	query = (sqlString)
+	cursor.execute(query)
+
+	payload = []
+
+	for (UserTaskNo, Category, SubCategory, TaskName, Point, Status) in cursor:
+		content = dict()
+		content["UserTaskNo"] = UserTaskNo
+		content["Category"] = Category
+		content["SubCategory"] = SubCategory
+		content["TaskName"] = TaskName
+		content["Point"] = Point
+		content["Status"] = Status
+		payload.append(content)
+
+	cursor.close()
+	conn.close()
+
+	return jsonify(payload)
+
+
 @app.route('/handleUserTask/<usertask_no>')
 def handleUserTask(usertask_no):
 
@@ -68,6 +102,7 @@ def getTaskList(my_no, from_date):
 	conn.close()
 
 	return jsonify(payload)
+
 
 @app.route('/login', methods=['POST'])
 def login():
