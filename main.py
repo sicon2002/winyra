@@ -5,10 +5,19 @@ import pymysql
 import json
 
 app = Flask(__name__ ,static_url_path='/static')
+
 @app.route('/getStatic')
 def getStatic():
 	item2 = {"name":"FANNY", "address":"china"}
-	return render_template('dog.html', obj=item2)
+	return render_template('a/dog.html', obj=item2)
+
+@app.route('/winyra/<pageUrl>')
+def getWebPage(pageUrl):
+	return render_template(pageUrl)
+
+@app.route('/winyra/<dir>/<pageUrl>')
+def getWebPage2(dir, pageUrl):
+	return render_template(dir + "/" + pageUrl)
 
 @app.route('/getTasksByDate')
 def getTasksByDate():

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Ready Bootstrap Dashboard</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" href="../../static/web/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/web/assets/css/ready.css">
+    <link rel="stylesheet" href="../../static/web/assets/css/demo.css">
+</head>
+
+<body>
+    <!-- {% include "web/dog.html" ignore missing %} -->
+
+    <div class="wrapper">
+        <!-- header -->
+        {% include "master/header.html" ignore missing %}
+        <!-- sider -->
+        {% include "master/sider.html" ignore missing %}
+
+
+        <!-- main part start -->
+
+        <div class="main-panel">
+            <div class="content">
+                <div class="container-fluid">
+                    <h4 class="page-title">仪表盘</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card card-stats card-warning">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-users"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">参与者</p>
+                                                <h4 class="card-title">3人</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats card-success">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-bar-chart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">LINDA</p>
+                                                <h4 class="card-title">123分</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats card-danger">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-newspaper-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">MEGAN</p>
+                                                <h4 class="card-title">20分</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats card-primary">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-check-circle"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">SICON</p>
+                                                <h4 class="card-title">100分</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="tlinks">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>
+                    <div class="row row-card-no-pd">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="fw-bold mt-1">当前应完成进度 | 应的分值</p>
+                                    <h4><b style="color:#091ed3">29%</b> | <b style="color:#668aff">390</b></h4>
+                                </div>
+                                <div class="card-footer">
+                                    <ul class="nav">
+                                        <p class="fw-bold mt-1">实际应完成进度 | 实际得分</p>
+                                        <h4><b style="color:#d30909">29%</b> | <b style="color:#a50707">390</b></h4>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="progress-card">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted">所有人</span>
+                                            <span class="text-muted fw-bold">高于标准 19%</span>
+                                        </div>
+                                        <div class="progress mb-2" style="height: 7px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="78%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-card">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted">LINDA</span>
+                                            <span class="text-muted fw-bold"> 低于标准 20%</span>
+                                        </div>
+                                        <div class="progress mb-2" style="height: 7px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="65%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-card">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted">MEGAN</span>
+                                            <span class="text-muted fw-bold"> 高于标准 70%</span>
+                                        </div>
+                                        <div class="progress mb-2" style="height: 7px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="70%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-card">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted">SICON</span>
+                                            <span class="text-muted fw-bold"> 高于标准 60%</span>
+                                        </div>
+                                        <div class="progress mb-2" style="height: 7px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="60%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <p class="fw-bold mt-1">Statistic</p>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="la la-pie-chart text-warning"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">任务数量</p>
+                                                <h4 class="card-title">350</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-heart-o text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">分值总数</p>
+                                                <h4 class="card-title">29002</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">分科目任务完成情况统计</h4>
+                                    <p class="card-category">
+                                        all</p>
+                                </div>
+                                <div class="card-body">
+                                    <div id="monthlyChart" class="chart chart-pie"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">按日用户得分情况统计</h4>
+                                    <p class="card-category">
+                                        by date</p>
+                                </div>
+                                <div class="card-body">
+                                    <div id="salesChart" class="chart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% include "master/main-footer.html" ignore missing %}
+        </div>
+        <!-- main part end -->
+    </div>
+    
+</body>
+<script src="../../static/web/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../../static/web/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../../static/web/assets/js/core/popper.min.js"></script>
+<script src="../../static/web/assets/js/core/bootstrap.min.js"></script>
+<script src="../../static/web/assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="../../static/web/assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<!-- <script src="/static/web/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
+<script src="../../static/web/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="../../static/web/assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../../static/web/assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="../../static/web/assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="../../static/web/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../../static/web/assets/js/ready.min.js"></script>
+<script src="../../static/web/assets/js/demo.js"></script>
+
+</html>

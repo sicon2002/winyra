@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Forms - Ready Bootstrap Dashboard</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" href="/static/web/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="/static/web/assets/css/ready.css">
+    <link rel="stylesheet" href="/static/web/assets/css/demo.css">
+
+
+    <link href='/static/libs/fullcalendar-4.2.0/packages/core/main.css' rel='stylesheet' />
+    <link href='/static/libs/fullcalendar-4.2.0/packages/daygrid/main.css' rel='stylesheet' />
+
+    <script src='/static/js/jquery-3.4.1.js'></script>
+    <style>
+        .tblock {
+            margin: 1px;
+            float: left;
+            width: 20px;
+        }
+        
+        .tblockDone {
+            background-color: #00ff00;
+        }
+        
+        .tblockPendding {
+            background-color: #ff0000;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+
+            PageInit();
+        });
+
+        var TaskList = [];
+        var PageInit = function() {
+            var userNo = localStorage.USER_NO;
+
+            var total = 0;
+            var done = 0;
+            var pendding = 0;
+            $.get("http://localhost:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
+
+                $("#taskblock").html("");
+                $("#taskblocktitle").html("");
+                $.each(data, function(i, item) {
+                    TaskList[item.TaskNo] = item;
+
+                    var tmpSpan = "";
+                    tmpSpan = "<div onclick='showTaskDetail(\"" + item.TaskNo + "\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>&nbsp;</div>"
+
+                    $("#taskblock").append(tmpSpan);
+
+                    total += 1;
+                    if (item.Status == 1)
+                        done += 1;
+                    else
+                        pendding += 1;
+                });
+
+                var htmlStr = "总任务数量：" + total + "，已完成：" + done + "，未完成：" + pendding + "，完成：" + (100 * done / total).toFixed(2) + "%，继续加油哦！";
+                $("#taskblocktitle").append(htmlStr);
+            });
+        };
+
+        var finish = function(utid) {
+            console.log(utid);
+
+            $.get("http://localhost:5000/handleUserTask/" + utid + "", function(data) {
+                // $("#calendar").fullCalendar("updateEvent", events);
+                PageInit();
+            });
+        };
+
+        var showTaskDetail = function(obj) {
+            console.log(TaskList[obj].TaskName);
+            console.log(JSON.stringify(TaskList[obj]));
+
+            var task = TaskList[obj];
+            var htmlStr = "任务详情：";
+            htmlStr += "<ul>";
+            htmlStr += "<li>编号：" + task.TaskNo + "</li>";
+            htmlStr += "<li>类别：" + task.Category + "</li>";
+            htmlStr += "<li>子类：" + task.SubCategory + "</li>";
+            htmlStr += "<li>名称：" + task.TaskName + "</li>";
+            htmlStr += "<li>时间：" + task.CheckDate + "</li>";
+            htmlStr += "<li>状态：" + (task.Status == "1" ? "已完成" : "未完成") + "</li>";
+            htmlStr += "</ul>";
+            htmlStr += "<button class='navbar-toggler sidenav-toggler ml-auto' onclick='finish(\"" + task.UserTaskNo + "\")'>" + (task.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>";
+            $("#taskDetail").html(htmlStr);
+        };
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        
+        <!-- header -->
+        {% include "master/header.html" ignore missing %}
+        <!-- sider -->
+        {% include "master/sider.html" ignore missing %}
+        
+        <div class="main-panel">
+            <div class="content">
+                <div class="container-fluid">
+                    <h4 class="page-title">
+                        任务状态一览图
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+
+                                <div class="card-header">
+                                    <div id="taskblocktitle" class="card-title">
+
+                                    </div>
+                                </div>
+                                <div id="taskblock" class="card-body">
+                                </div>
+                                <hr />
+                                <div id="taskDetail" class="card-body">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    {% include "master/main-footer.html" ignore missing %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/static/web/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="/static/web/assets/js/core/popper.min.js"></script>
+<script src="/static/web/assets/js/core/bootstrap.min.js"></script>
+<script src="/static/web/assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="/static/web/assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="/static/web/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="/static/web/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="/static/web/assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="/static/web/assets/js/ready.min.js"></script>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Notifications - Ready Bootstrap Dashboard</title>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+	<link rel="stylesheet" href="/static/web/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+	<link rel="stylesheet" href="/static/web/assets/css/ready.css">
+	<link rel="stylesheet" href="/static/web/assets/css/demo.css">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			
+			<!-- header -->
+			{% include "master/header.html" ignore missing %}
+			<!-- sider -->
+			{% include "master/sider.html" ignore missing %}
+	
+
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<h4 class="page-title">Notifications</h4>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">Bootstrap Notify</div>
+										<div class="card-category">Turn standard bootstrap alerts into "growl" like notifications from <a class="link" href="http://bootstrap-notify.remabledesigns.com/">Bootstrap Notify</a></div>
+									</div>
+									<div class="card-body">
+										<div class="form">
+											<div class="form-group from-show-notify row">
+												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
+													<label>Placement :</label>
+												</div>
+												<div class="col-lg-4 col-md-9 col-sm-12">
+													<select class="form-control input-fixed" id="notify_placement_from">
+														<option value="top">Top</option>
+														<option value="bottom">Bottom</option>
+													</select>
+													<select class="form-control input-fixed" id="notify_placement_align">
+														<option value="left">Left</option>
+														<option value="right" selected="">Right</option>
+														<option value="center">Center</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group from-show-notify row">
+												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
+													<label>State :</label>
+												</div>
+												<div class="col-lg-4 col-md-9 col-sm-12">
+													<select class="form-control input-fixed" id="notify_state">
+														<option value="primary">Primary</option>
+														<option value="info">Info</option>
+														<option value="success">Success</option>
+														<option value="warning">Warning</option>
+														<option value="danger">Danger</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group from-show-notify row">
+												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
+													<label>Style :</label>
+												</div>
+												<div class="col-lg-4 col-md-9 col-sm-12">
+													<select class="form-control input-fixed" id="notify_style">
+														<option value="plain">Plain</option>
+														<option value="withicon">With Icon</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="form">
+											<div class="form-group from-show-notify row">
+												<div class="col-lg-3 col-md-3 col-sm-12">
+
+												</div>
+												<div class="col-lg-4 col-md-9 col-sm-12">
+													<button id="displayNotif" class="btn btn-success">Display</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				{% include "master/main-footer.html" ignore missing %}
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script src="/static/web/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="/static/web/assets/js/core/popper.min.js"></script>
+<script src="/static/web/assets/js/core/bootstrap.min.js"></script>
+<script src="/static/web/assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="/static/web/assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<!-- <script src="/static/web/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
+<script src="/static/web/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="/static/web/assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="/static/web/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="/static/web/assets/js/ready.min.js"></script>
+<script>
+	$('#displayNotif').on('click', function(){
+		var placementFrom = $('#notify_placement_from option:selected').val();
+		var placementAlign = $('#notify_placement_align option:selected').val();
+		var state = $('#notify_state option:selected').val();
+		var style = $('#notify_style option:selected').val();
+		var content = {};
+
+		content.message = 'Turning standard Bootstrap alerts into "notify" like notifications';
+		content.title = 'Bootstrap notify';
+		if (style == "withicon") {
+			content.icon = 'la la-bell';
+		} else {
+			content.icon = 'none';
+		}
+		content.url = 'index.html';
+		content.target = '_blank';
+
+		$.notify(content,{
+			type: state,
+			placement: {
+				from: placementFrom,
+				align: placementAlign
+			},
+			time: 1000,
+		});
+	});
+</script>
+</html>
