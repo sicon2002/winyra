@@ -18,6 +18,15 @@
     <script src='/static/libs/fullcalendar-4.2.0/packages/interaction/main.js'></script>
     <script src='/static/libs/fullcalendar-4.2.0/packages/daygrid/main.js'></script>
 
+    <style>
+        .pdiv {
+            border: solid 1px #ff0000;
+            margin-top: 20px;
+        }
+        .done {
+            background-color: #00ff00;
+        }
+    </style>
     <script>
         $(document).ready(function() {
 
@@ -47,7 +56,7 @@
                         dataList = data;
                         $.each(data, function(i, item) {
                             var content = {};
-                            content["title"] = "[" + item.Category + "]" + item.TaskName;
+                            content["title"] = "[" + item.Category + "]"; // + item.TaskName;
                             content["start"] = item.CheckDate;
 
                             if (item.Status == 0) {
@@ -60,13 +69,27 @@
                                 content["backgroundColor"] = "#88FF88";
                             }
                             events.push(content);
+
+                            var tmpStr = "<span class='done'>[" + item.Category + "]</span>";
+                           // $("[data-date='"+item.CheckDate+"']").append(tmpStr);
+
+                            var t = item.CheckDate.replace(/-/g,"");
+                            
+                            if($("#D"+t+"").html() == null){
+                                $("[data-date='"+item.CheckDate+"']").append("<div class='pdiv' id='D"+ t +"'></div>");
+                                $("#D"+ t +"").append(tmpStr);
+                                console.log("created.");
+                            } else {
+                                console.log("exsits.");
+                                $("#D"+ t +"").append(tmpStr);
+                            }
                         });
                         // console.log(JSON.stringify(events));
-                        successCallback(events);
+                        // successCallback(events);
 
-                        setTimeout(function() {
-                            // $("[data-date='2019-06-22']").append("<div style='background-color:#00ff00;color:#ff0000'>90%</div>");
-                        }, 3000);
+                        // setTimeout(function() {
+                        //     // $("[data-date='2019-06-22']").append("<div style='background-color:#00ff00;color:#ff0000'>90%</div>");
+                        // }, 3000);
                     });
                 },
                 dateClick: function(e) {
