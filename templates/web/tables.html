@@ -30,11 +30,59 @@
         .tskpendding td {
             color: #ffffff!important;
         }
+
+        .tskcontainer{
+            
+        }
     </style>
     <script>
         $(document).ready(function() {
             PageInit();
         });
+
+        var tskList = [];
+
+        function timeStamp2String(time){
+            var datetime = new Date();
+            datetime.setTime(time);
+            var year = datetime.getFullYear();
+            var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+            var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+            // var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+            // var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+            // var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+            return year + "-" + month + "-" + date;
+        }
+
+        var showTaskDetail = function(itemNo){
+            var item = tskList[itemNo];
+            var tCategory = "<b>类别：</b>" + item.Category;
+            var tSubCategory = "<b>子类：</b>" + item.SubCategory;
+            var tName = "<b>名称：</b>" + item.TaskName;
+            var tPoint = "<b>分值：</b>" + item.Point;
+            var tFromDate = "<b>开始日期：</b>" + timeStamp2String(new Date(item.FromDate));
+            var tToDate = "<b>结束日期：</b>" + timeStamp2String(new Date(item.ToDate));
+            var tCheckDate = "<b>检查日期：</b>" + timeStamp2String(new Date(item.CheckDate));
+            var tStatus = "<b>状态：</b>" + (item.Status == "0"?"未完成":"已完成");
+            var htmlStr = "<div class='tskcontainer'>";
+            htmlStr += "<div class='tskitem'>" + tCategory + "</div>";
+            htmlStr += "<div class='tskitem'>" + tSubCategory + "</div>";
+            htmlStr += "<div class='tskitem'>" + tName + "</div>";
+            htmlStr += "<div class='tskitem'>" + tPoint + "</div>";
+            htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
+            htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
+            htmlStr += "<div class='tskitem'>" + tCheckDate + "</div>";
+            htmlStr += "<div class='tskitem'>" + tStatus + "</div>";
+            htmlStr += "</div>";
+
+            $("#tskBaseinfo").html(htmlStr);
+
+            var actions = "用时：<input /> <br />";
+            actions += "错误数量：<input /> <br />";
+            actions += "其他说明：<input /> <br />";
+            actions += "<button onclick='finish("+ item.UserTaskNo +")'>提交</button>";
+            $("#tskAction").html(actions);
+        };
 
         var finish = function(utid) {
             console.log(utid);
@@ -60,7 +108,8 @@
         }
 
         var PageInit = function() {
-            $.get("http://localhost:5000/getTasksByDate", function(data) {
+            var curDate = timeStamp2String(new Date().getTime());
+            $.get("http://localhost:5000/getTasksByDate/"+ localStorage.USER_NO +"/"+curDate, function(data) {
 
                 var done = 0;
                 var pendding = 0;
@@ -75,7 +124,7 @@
                     tmpString += "	<td>" + item.TaskName + "</td>";
                     tmpString += "	<td>" + item.Point + "</td>";
                     tmpString += "	<td>" + (item.Status == 0 ? "未完成" : "已完成") + "</td>";
-                    tmpString += "	<td><button onclick='finish(\"" + item.UserTaskNo + "\")'>" + (item.Status == 0 ? "完成" : "取消") + "</button></td>";
+                    tmpString += "	<td><button onclick='showTaskDetail(\"" + item.UserTaskNo + "\")'>" + (item.Status == 0 ? "完成" : "取消") + "</button></td>";
                     tmpString += "</tr>";
 
                     $("#taskList").append(tmpString);
@@ -84,6 +133,9 @@
                         done += 1;
                     else
                         pendding += 1;
+                    
+                        
+                    tskList[item.UserTaskNo] = item;
                 });
 
                 var msgStr = (pendding == 0) ?
@@ -108,7 +160,7 @@
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
-                    <h4 class="page-title">日程表 2019-07-05</h4>
+                    <h4 class="page-title">日程表</h4>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
@@ -152,6 +204,32 @@
                             
                         </div>
                     </div>
+
+                    <div class="row">
+                            <div class="col-md-4">
+                                <!-- <div class="card">
+                                    ...
+                                </div> -->
+                                
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">任务详情</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6" id="tskBaseinfo">
+                                                请选择一个任务！
+                                            </div>
+                                            <div class="col-md-6" id="tskAction">
+                                                right
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
             {% include "master/main-footer.html" ignore missing %}

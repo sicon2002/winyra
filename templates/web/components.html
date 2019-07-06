@@ -20,11 +20,22 @@
 
     <style>
         .pdiv {
-            border: solid 1px #ff0000;
+            border: solid 0px #ff0000;
             margin-top: 20px;
         }
         .done {
-            background-color: #00ff00;
+            background-color: #33FF66;
+            border: solid 1px #003DF5;
+            float: left;
+            margin:2px;
+            padding: 1px 4px;
+        }
+        .pendding {
+            background-color: #FFCC33;
+            border: solid 1px #B88A00;
+            float: left;
+            margin:2px;
+            padding: 1px 4px;
         }
     </style>
     <script>
@@ -56,7 +67,7 @@
                         dataList = data;
                         $.each(data, function(i, item) {
                             var content = {};
-                            content["title"] = "[" + item.Category + "]"; // + item.TaskName;
+                            content["title"] = "[" + item.Category + "]" + item.SubCategory;
                             content["start"] = item.CheckDate;
 
                             if (item.Status == 0) {
@@ -70,7 +81,7 @@
                             }
                             events.push(content);
 
-                            var tmpStr = "<span class='done'>[" + item.Category + "]</span>";
+                            var tmpStr = "<span class='"+ (item.Status=="0"?"pendding":"done") +"'>[" + item.Category +"]</span>";
                            // $("[data-date='"+item.CheckDate+"']").append(tmpStr);
 
                             var t = item.CheckDate.replace(/-/g,"");

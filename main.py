@@ -19,17 +19,17 @@ def getWebPage(pageUrl):
 def getWebPage2(dir, pageUrl):
 	return render_template(dir + "/" + pageUrl)
 
-@app.route('/getTasksByDate')
-def getTasksByDate():
+@app.route('/getTasksByDate/<userNo>/<from_date>')
+def getTasksByDate(userNo, from_date):
 
 	#链接数据库
 	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	#从数据库中读取数据的脚本
-	sqlString = "SELECT UserTaskNo, Category, SubCategory, TaskName, Tasks.Point, UserTasks.Status  FROM UserTasks \
+	sqlString = "SELECT UserTaskNo, Category, SubCategory, TaskName, FromDate, ToDate, CheckDate, Tasks.Point, UserTasks.Status  FROM UserTasks \
 		INNER JOIN Tasks ON UserTasks.TaskNo = Tasks.TaskNo \
-		WHERE UserNo = 23 \
-		AND FromDate = '2019-07-14'"
+		WHERE UserNo = "+ userNo +" \
+		AND FromDate = '"+ from_date +"'"
 
 	#开始读取数据
 	query = (sqlString)
@@ -37,7 +37,7 @@ def getTasksByDate():
 
 	payload = []
 
-	for (UserTaskNo, Category, SubCategory, TaskName, Point, Status) in cursor:
+	for (UserTaskNo, Category, SubCategory, TaskName, FromDate, ToDate, CheckDate, Point, Status) in cursor:
 		content = dict()
 		content["UserTaskNo"] = UserTaskNo
 		content["Category"] = Category
@@ -45,6 +45,9 @@ def getTasksByDate():
 		content["TaskName"] = TaskName
 		content["Point"] = Point
 		content["Status"] = Status
+		content["FromDate"] = FromDate
+		content["ToDate"] = ToDate
+		content["CheckDate"] = CheckDate
 		payload.append(content)
 
 	cursor.close()
