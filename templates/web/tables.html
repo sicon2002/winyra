@@ -129,13 +129,16 @@
             actions += "错误数量：<input id='inB' class='my-control' /> <br />";
             actions += "测试分数：<input id='inC' class='my-control' /> <br />";
             actions += "自我评测：<input id='inD' class='my-control' /> <br />";
-            actions += "公里数：<input id='inE' class='my-control' /> <br />";
+            actions += "总公里数：<input id='inE' class='my-control' /> <br />";
             actions += "其他说明：<textarea id='inF' class='my-control' ></textarea> <br />";
             actions += "<button class='btn btn-success' onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
             $("#tskAction").html(actions);
         };
 
         var finish = function(utid) {
+
+            var tsk = tskList[utid];
+            console.log(tsk.Point);
 
             var a = $("#inA").val();
             var b = $("#inB").val();
@@ -152,10 +155,13 @@
                     "inC": c,
                     "inD": d,
                     "inE": e,
-                    "inF": f
+                    "inF": f,
+                    "Point": tsk.Point
                 }),
                 function(data) {
                     PageInit();
+                    $("#tskAction").html("");
+                    $("#tskBaseinfo").html("");
                 }
             )
         };

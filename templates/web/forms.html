@@ -90,7 +90,7 @@
             htmlStr += "<li>时间：" + task.CheckDate + "</li>";
             htmlStr += "<li>状态：" + (task.Status == "1" ? "已完成" : "未完成") + "</li>";
             htmlStr += "</ul>";
-            htmlStr += "<button class='navbar-toggler sidenav-toggler ml-auto' onclick='finish(\"" + task.UserTaskNo + "\")'>" + (task.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>";
+            htmlStr += "<button class='btn btn-success' onclick='finish(\"" + task.UserTaskNo + "\")'>" + (task.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>";
             $("#taskDetail").html(htmlStr);
         };
     </script>

@@ -66,6 +66,9 @@ def handleUserTask(usertask_no):
 	D = data['inD']
 	E = data['inE']
 	F = data['inF']
+	Point = data['Point']
+
+	print Point
 
 	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
@@ -76,7 +79,8 @@ def handleUserTask(usertask_no):
             C = '"+ C +"', \
             D = '"+ D +"', \
             E = '"+ E +"', \
-            F = '"+ F +"' \
+            F = '"+ F +"', \
+			Point = "+ str(Point) +" \
 		WHERE UserTaskNo = "+ usertask_no +""
 
 	print(sqlString)
@@ -129,6 +133,32 @@ def getTaskList(my_no, from_date):
 
 	return jsonify(payload)
 
+
+@app.route('/getSummary')
+def getSummary():
+
+	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
+	cursor = conn.cursor()
+	sqlString = "SELECT UserNo, Status, SUM(Point) TotalPoints, SUM(ExtPoint) TotalExtPoints, COUNT(1) TotalCnt FROM UserTasks \
+		GROUP BY UserNo, Status"
+
+	query = (sqlString)
+	cursor.execute(query)
+
+	payload = []
+
+	for (UserNo, Status, TotalPoints, TotalExtPoints, TotalCnt) in cursor:
+		content = dict()
+		content["UserNo"] = UserNo
+		content["Status"] = Status
+		content["TotalPoints"] = float(TotalPoints)
+		content["TotalExtPoints"] = float(TotalExtPoints)
+		content["TotalCnt"] = float(TotalCnt)
+		payload.append(content)
+	cursor.close()
+	conn.close()
+
+	return jsonify(payload)
 
 @app.route('/login', methods=['POST'])
 def login():

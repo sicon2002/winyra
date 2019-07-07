@@ -72,7 +72,7 @@
                         dataList = data;
                         $.each(data, function(i, item) {
                             var content = {};
-                            content["title"] = "[" + item.Category + "]" + item.SubCategory;
+                            content["title"] = "[" + item.Category + "]" + item.SubCategory + ":" + item.TaskName;
                             content["start"] = item.CheckDate;
 
                             if (item.Status == 0) {
@@ -86,20 +86,20 @@
                             }
                             events.push(content);
 
-                            var tmpStr = "<span class='" + (item.Status == "0" ? "pendding" : "done") + "'>[" + item.Category + "]</span>";
+                            var tmpStr = "<span class='" + (item.Status == "0" ? "pendding" : "done") + "'>[" + item.TaskName + "]</span>";
                             // $("[data-date='"+item.CheckDate+"']").append(tmpStr);
 
                             var t = item.CheckDate.replace(/-/g, "");
 
-                            if ($("#D" + t + "").html() == null) {
-                                $("[data-date='" + item.CheckDate + "']").append("<div class='pdiv' id='D" + t + "'></div>");
-                                $("#D" + t + "").append(tmpStr);
-                            } else {
-                                $("#D" + t + "").append(tmpStr);
-                            }
+                            // if ($("#D" + t + "").html() == null) {
+                            //     $("[data-date='" + item.CheckDate + "']").append("<div class='pdiv' id='D" + t + "'></div>");
+                            //     $("#D" + t + "").append(tmpStr);
+                            // } else {
+                            //     $("#D" + t + "").append(tmpStr);
+                            // }
                         });
                         // console.log(JSON.stringify(events));
-                        // successCallback(events);
+                        successCallback(events);
 
                         // setTimeout(function() {
                         //     // $("[data-date='2019-06-22']").append("<div style='background-color:#00ff00;color:#ff0000'>90%</div>");
@@ -132,7 +132,8 @@
                             tmpStr += "<td>" + item.Point + "</td>";
                             tmpStr += "<td>" + (item.Status == "1" ? "已完成" : "未完成") + "</td>";
                             tmpStr += "<td>" + item.CheckDate + "</td>";
-                            tmpStr += "<td><button onclick='finish(\"" + item.UserTaskNo + "\")'>" + (item.Status == "1" ? "哦，还没完成" : "我完成了") + "</button></td>";
+                            tmpStr += "<td></td>";
+                            // <button onclick='finish(\"" + item.UserTaskNo + "\")'>" + (item.Status == "1" ? "哦，还没完成" : "我完成了") + "</button>
                             tmpStr += "</tr></tbody>";
                         }
                     });

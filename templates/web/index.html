@@ -10,6 +10,49 @@
     <link rel="stylesheet" href="../../static/web/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/web/assets/css/ready.css">
     <link rel="stylesheet" href="../../static/web/assets/css/demo.css">
+    <script>
+        $(document).ready(function() {
+            // numbers
+            InitPage();
+        });
+
+        var ShowItems = function(summary) {
+            $.each(summary, function(i, v) {
+                if (v == null) {
+                    console.log("NULL");
+                } else {
+                    // i =0,1,2,3
+                    var e1 = $(".numbers").eq(0);
+                    // console.log($(e1).children(1).html());
+
+                    $(e1).children(1).html("ho,");
+                }
+
+            });
+        };
+
+        var InitPage = function() {
+
+            $.get("http://localhost:5000/getSummary", function(data) {
+                var summary = [];
+                $.each(data, function(k, v) {
+                    // console.log(JSON.stringify(k));
+                    if (v.Status == "0") {
+                        if (summary[v.UserNo] == null) {
+                            summary[v.UserNo] = {};
+                        }
+                        summary[v.UserNo].TotalPoints = v.TotalPoints;
+                        summary[v.UserNo].ExtTotalPoints = v.ExtTotalPoints;
+                        summary[v.UserNo].TotalCnt = v.TotalCnt;
+                    } else {
+
+                    }
+                });
+                // console.log(JSON.stringify(summary));
+                ShowItems(summary);
+            });
+        };
+    </script>
 </head>
 
 <body>
