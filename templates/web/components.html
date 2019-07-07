@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>任务日历</title>
+    <title>Winyra - 任务日历</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <link rel="stylesheet" href="/static/web/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -23,18 +23,20 @@
             border: solid 0px #ff0000;
             margin-top: 20px;
         }
+        
         .done {
             background-color: #33FF66;
             border: solid 1px #003DF5;
             float: left;
-            margin:2px;
+            margin: 2px;
             padding: 1px 4px;
         }
+        
         .pendding {
             background-color: #FFCC33;
             border: solid 1px #B88A00;
             float: left;
-            margin:2px;
+            margin: 2px;
             padding: 1px 4px;
         }
     </style>
@@ -48,7 +50,10 @@
                 $("#username1").html(localStorage.USER_NAME);
                 $("#username2").html(localStorage.USER_NAME);
                 $("#username3").html(localStorage.USER_NAME);
+
+
             };
+
 
             initPage();
 
@@ -81,18 +86,16 @@
                             }
                             events.push(content);
 
-                            var tmpStr = "<span class='"+ (item.Status=="0"?"pendding":"done") +"'>[" + item.Category +"]</span>";
-                           // $("[data-date='"+item.CheckDate+"']").append(tmpStr);
+                            var tmpStr = "<span class='" + (item.Status == "0" ? "pendding" : "done") + "'>[" + item.Category + "]</span>";
+                            // $("[data-date='"+item.CheckDate+"']").append(tmpStr);
 
-                            var t = item.CheckDate.replace(/-/g,"");
-                            
-                            if($("#D"+t+"").html() == null){
-                                $("[data-date='"+item.CheckDate+"']").append("<div class='pdiv' id='D"+ t +"'></div>");
-                                $("#D"+ t +"").append(tmpStr);
-                                console.log("created.");
+                            var t = item.CheckDate.replace(/-/g, "");
+
+                            if ($("#D" + t + "").html() == null) {
+                                $("[data-date='" + item.CheckDate + "']").append("<div class='pdiv' id='D" + t + "'></div>");
+                                $("#D" + t + "").append(tmpStr);
                             } else {
-                                console.log("exsits.");
-                                $("#D"+ t +"").append(tmpStr);
+                                $("#D" + t + "").append(tmpStr);
                             }
                         });
                         // console.log(JSON.stringify(events));
@@ -153,7 +156,7 @@
 
 <body>
     <div class="wrapper">
-        
+
         <!-- header -->
         {% include "master/header.html" ignore missing %}
         <!-- sider -->
@@ -197,7 +200,7 @@
             {% include "master/main-footer.html" ignore missing %}
         </div>
     </div>
-    
+
 </body>
 <script src="/static/web/assets/js/core/jquery.3.2.1.min.js"></script>
 <script src="/static/web/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -228,4 +231,4 @@
     });
 </script>
 
-</html>
+</html

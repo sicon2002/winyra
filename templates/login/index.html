@@ -30,14 +30,14 @@
                     "password": $("#password").val()
                 }),
                 function(data) {
-                    if (data.length <= 0) {
-                        console.log(JSON.stringify(data));
+
+                    if (data.NO == null) {
                         alert("登录失败，请与Linda同学联系！");
                     } else {
                         localStorage.USER_NAME = data.NAME;
                         localStorage.USER_NO = data.NO;
+                        localStorage.USER_PHOTO_URL = data.PhotoUrl;
 
-                        console.log(JSON.stringify(data));
                         window.location.href = "../web/components.html";
                     }
                 }

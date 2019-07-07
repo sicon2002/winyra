@@ -36,7 +36,7 @@
                 <li class="nav-item dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-bell"></i>
-                        <span class="notification">3</span>
+                        <!-- <span class="notification">3</span> -->
                     </a>
                     <ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
                         <li>
@@ -64,7 +64,7 @@
                                 </a>
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="/static/web/assets/img/profile2.jpg" alt="Img Profile">
+                                        <img id="photo1" src="#" alt="Img Profile">
                                     </div>
                                     <div class="notif-content">
                                         <span class="block">
@@ -90,7 +90,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="/static/web/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img id="photo2" src="#" alt="user-img" width="36" class="img-circle"><span>
                         <script>
                             document.write(localStorage.USER_NAME);    
                         </script>
@@ -99,9 +99,9 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
-                                <div class="u-img"><img src="/static/web/assets/img/profile.jpg" alt="user"></div>
+                                <div class="u-img"><img id="photo3" src="#" alt="user"></div>
                                 <div class="u-text">
-                                    <h4>...
+                                    <h4>
                                         <script>
                                             document.write(localStorage.USER_NAME);
                                         </script>
@@ -125,7 +125,16 @@
     </nav>
 </div>
 <script>
-    function logout(){
+    console.log("当前登陆人的头像是：" + localStorage.USER_PHOTO_URL);
+
+    $(document).ready(function() {
+        $("#photo1").attr('src', "/static/web/assets/img/" + localStorage.USER_PHOTO_URL);
+        $("#photo2").attr('src', "/static/web/assets/img/" + localStorage.USER_PHOTO_URL);
+        $("#photo3").attr('src', "/static/web/assets/img/" + localStorage.USER_PHOTO_URL);
+
+    });
+
+    function logout() {
         localStorage.USER_NAME = "";
         localStorage.USER_NO = "";
         window.location.href = "../login/index.html";

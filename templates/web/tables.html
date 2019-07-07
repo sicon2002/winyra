@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Tables - Ready Bootstrap Dashboard</title>
+    <title>Winyra - 今日日程</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <link rel="stylesheet" href="/static/web/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -26,14 +26,16 @@
             color: #ffffff!important;
         }
         
+        .my-control {
+            padding: 2px;
+        }
+        
         .tskdone,
         .tskpendding td {
             color: #ffffff!important;
         }
-
-        .tskcontainer{
-            
-        }
+        
+        .tskcontainer {}
     </style>
     <script>
         $(document).ready(function() {
@@ -42,7 +44,7 @@
 
         var tskList = [];
 
-        function timeStamp2String(time){
+        function timeStamp2String(time) {
             var datetime = new Date();
             datetime.setTime(time);
             var year = datetime.getFullYear();
@@ -54,7 +56,7 @@
             return year + "-" + month + "-" + date;
         }
 
-        var showTaskDetail = function(itemNo){
+        var showTaskDetail = function(itemNo) {
             var item = tskList[itemNo];
             var tCategory = "<b>类别：</b>" + item.Category;
             var tSubCategory = "<b>子类：</b>" + item.SubCategory;
@@ -63,34 +65,99 @@
             var tFromDate = "<b>开始日期：</b>" + timeStamp2String(new Date(item.FromDate));
             var tToDate = "<b>结束日期：</b>" + timeStamp2String(new Date(item.ToDate));
             var tCheckDate = "<b>检查日期：</b>" + timeStamp2String(new Date(item.CheckDate));
-            var tStatus = "<b>状态：</b>" + (item.Status == "0"?"未完成":"已完成");
+            var tStatus = "<b>状态：</b>" + (item.Status == "0" ? "未完成" : "已完成");
             var htmlStr = "<div class='tskcontainer'>";
             htmlStr += "<div class='tskitem'>" + tCategory + "</div>";
             htmlStr += "<div class='tskitem'>" + tSubCategory + "</div>";
             htmlStr += "<div class='tskitem'>" + tName + "</div>";
             htmlStr += "<div class='tskitem'>" + tPoint + "</div>";
-            htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
-            htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
-            htmlStr += "<div class='tskitem'>" + tCheckDate + "</div>";
+            // htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
+            // htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
             htmlStr += "<div class='tskitem'>" + tStatus + "</div>";
+            htmlStr += "<div class='tskitem'>" + tCheckDate + "</div>";
             htmlStr += "</div>";
 
             $("#tskBaseinfo").html(htmlStr);
 
-            var actions = "用时：<input /> <br />";
-            actions += "错误数量：<input /> <br />";
-            actions += "其他说明：<input /> <br />";
-            actions += "<button onclick='finish("+ item.UserTaskNo +")'>提交</button>";
+            showInfoByCtg(item, item.SubCategory);
+        };
+
+        // 根据不同的任务类型显示需要输入的信息
+        // input 参数: category 任务类型
+        var showInfoByCtg = function(item, category) {
+            console.log("category:" + category);
+            var actions = "";
+            // if (category == "背诵新概念") {
+            //     // 新概念
+            //     actions += "任务用时：<input /> <br />";
+            //     actions += "错误数量：<input /> <br />";
+            //     actions += "其他说明：<input /> <br />";
+            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
+            // } else if (category == "自学课本") {
+            //     actions += "其他说明：<input /> <br />";
+            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
+            // } else if (category == "51Talk") {
+            //     actions += "其他说明：<input /> <br />";
+            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
+            // } else if (category == "物理讲课") {
+            //     actions += "任务用时：<input /> <br />";
+            //     actions += "其他说明：<input /> <br />";
+            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
+            // }
+            // 物理数学
+            // 自学：说明
+            // 测试：分数，说明
+            // 讲课：用时，说明
+            // 听课：说明
+
+            // 51Talk
+            // 说明
+
+            // 运动
+            // 游泳：时间，状态，说明
+            // 跑步：时间，状态，公里数，说明
+
+            // 钢琴
+            // 时间，状态，流利程度，说明
+
+            // Winyra
+            // 自学：说明
+            // 讲课：用时，说明
+            // 实践：用时，成果
+
+            actions += "任务用时：<input id='inA' class='my-control' /> <br />";
+            actions += "错误数量：<input id='inB' class='my-control' /> <br />";
+            actions += "测试分数：<input id='inC' class='my-control' /> <br />";
+            actions += "自我评测：<input id='inD' class='my-control' /> <br />";
+            actions += "公里数：<input id='inE' class='my-control' /> <br />";
+            actions += "其他说明：<textarea id='inF' class='my-control' ></textarea> <br />";
+            actions += "<button class='btn btn-success' onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
             $("#tskAction").html(actions);
         };
 
         var finish = function(utid) {
-            console.log(utid);
 
-            $.get("http://localhost:5000/handleUserTask/" + utid + "", function(data) {
-                // $("#calendar").fullCalendar("updateEvent", events);
-                PageInit();
-            });
+            var a = $("#inA").val();
+            var b = $("#inB").val();
+            var c = $("#inC").val();
+            var d = $("#inD").val();
+            var e = $("#inE").val();
+            var f = $("#inF").val();
+
+            $.post(
+                "http://localhost:5000/handleUserTask/" + utid + "",
+                JSON.stringify({
+                    "inA": a,
+                    "inB": b,
+                    "inC": c,
+                    "inD": d,
+                    "inE": e,
+                    "inF": f
+                }),
+                function(data) {
+                    PageInit();
+                }
+            )
         };
 
         var ShowPie = function(a, b) {
@@ -109,7 +176,7 @@
 
         var PageInit = function() {
             var curDate = timeStamp2String(new Date().getTime());
-            $.get("http://localhost:5000/getTasksByDate/"+ localStorage.USER_NO +"/"+curDate, function(data) {
+            $.get("http://localhost:5000/getTasksByDate/" + localStorage.USER_NO + "/" + curDate, function(data) {
 
                 var done = 0;
                 var pendding = 0;
@@ -133,8 +200,8 @@
                         done += 1;
                     else
                         pendding += 1;
-                    
-                        
+
+
                     tskList[item.UserTaskNo] = item;
                 });
 
@@ -151,8 +218,8 @@
 
 <body>
     <div class="wrapper">
-        
-        
+
+
         <!-- header -->
         {% include "master/header.html" ignore missing %}
         <!-- sider -->
@@ -161,6 +228,7 @@
             <div class="content">
                 <div class="container-fluid">
                     <h4 class="page-title">日程表</h4>
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
@@ -174,7 +242,7 @@
                                     <div id="tskmsg">恭喜您完成了今天的所有任务！</div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="col-md-8">
                             <div class="card">
@@ -200,43 +268,38 @@
 
                                 </div>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
 
                     <div class="row">
-                            <div class="col-md-4">
-                                <!-- <div class="card">
-                                    ...
-                                </div> -->
-                                
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title">任务详情</div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6" id="tskBaseinfo">
-                                                请选择一个任务！
-                                            </div>
-                                            <div class="col-md-6" id="tskAction">
-                                                right
-                                            </div>
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">任务详情</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6" id="tskBaseinfo">
+                                            请选择一个任务！
+                                        </div>
+                                        <div class="col-md-6" id="tskAction">
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
             {% include "master/main-footer.html" ignore missing %}
         </div>
     </div>
-    
-    
+
+
 </body>
 <script src="/static/web/assets/js/core/jquery.3.2.1.min.js"></script>
 <script src="/static/web/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -253,33 +316,5 @@
 <script src="/static/web/assets/js/ready.min.js"></script>
 
 <script src="/static/web/assets/js/demo.js"></script>
-<script>
-    $('#displayNotif').on('click', function() {
-        var placementFrom = $('#notify_placement_from option:selected').val();
-        var placementAlign = $('#notify_placement_align option:selected').val();
-        var state = $('#notify_state option:selected').val();
-        var style = $('#notify_style option:selected').val();
-        var content = {};
-
-        content.message = 'Turning standard Bootstrap alerts into "notify" like notifications';
-        content.title = 'Bootstrap notify';
-        if (style == "withicon") {
-            content.icon = 'la la-bell';
-        } else {
-            content.icon = 'none';
-        }
-        content.url = 'index.html';
-        content.target = '_blank';
-
-        $.notify(content, {
-            type: state,
-            placement: {
-                from: placementFrom,
-                align: placementAlign
-            },
-            time: 1000,
-        });
-    });
-</script>
 
 </html>

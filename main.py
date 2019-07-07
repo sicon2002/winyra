@@ -56,13 +56,27 @@ def getTasksByDate(userNo, from_date):
 	return jsonify(payload)
 
 
-@app.route('/handleUserTask/<usertask_no>')
+@app.route('/handleUserTask/<usertask_no>', methods=['POST'])
 def handleUserTask(usertask_no):
+
+	data = json.loads(request.get_data(as_text=True))
+	A = data['inA']
+	B = data['inB']
+	C = data['inC']
+	D = data['inD']
+	E = data['inE']
+	F = data['inF']
 
 	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	sqlString = "UPDATE UserTasks \
-		SET Status = (Status - 1)*(Status - 1) \
+		SET Status = (Status - 1)*(Status - 1), \
+            A = '"+ A +"', \
+            B = '"+ B +"', \
+            C = '"+ C +"', \
+            D = '"+ D +"', \
+            E = '"+ E +"', \
+            F = '"+ F +"' \
 		WHERE UserTaskNo = "+ usertask_no +""
 
 	print(sqlString)
@@ -124,13 +138,14 @@ def login():
 
 	conn = pymysql.connect(user='root', password='Winyra123', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
-	query = ('select NO, NAME from Users WHERE NO="'+ userNo +'" AND PWD="'+ password +'"')
+	query = ('select NO, NAME, PhotoUrl from Users WHERE NO="'+ userNo +'" AND PWD="'+ password +'"')
 	cursor.execute(query)
 
-	for (NO, NAME) in cursor:
-		content = dict()
+	content = dict()
+	for (NO, NAME, PhotoUrl) in cursor:
 		content["NO"] = NO
 		content["NAME"] = NAME
+		content["PhotoUrl"] = PhotoUrl
 
 	cursor.close()
 	conn.close()
