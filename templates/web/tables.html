@@ -148,7 +148,7 @@
             var f = $("#inF").val();
 
             $.post(
-                "http://localhost:5000/handleUserTask/" + utid + "",
+                "http://192.168.0.108:5000/handleUserTask/" + utid + "",
                 JSON.stringify({
                     "inA": a,
                     "inB": b,
@@ -182,7 +182,7 @@
 
         var PageInit = function() {
             var curDate = timeStamp2String(new Date().getTime());
-            $.get("http://localhost:5000/getTasksByDate/" + localStorage.USER_NO + "/" + curDate, function(data) {
+            $.get("http://192.168.0.108:5000/getTasksByDate/" + localStorage.USER_NO + "/" + curDate, function(data) {
 
                 var done = 0;
                 var pendding = 0;

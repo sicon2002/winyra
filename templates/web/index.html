@@ -17,30 +17,34 @@
         });
 
         var ShowItems = function(summary) {
-            $.each(summary, function(i, v) {
-                if (v == null) {
-                    console.log("NULL");
-                } else {
-                    // i =0,1,2,3
-                    var e1 = $(".numbers").eq(0);
-                    // console.log($(e1).children(1).html());
 
-                    $(e1).children(1).html("ho,");
-                }
+            var e1 = $(".numbers").eq(0);
+            $(e1).children().eq(0).html("参与者");
+            $(e1).children().eq(1).html("3人");
 
-            });
+            var e1 = $(".numbers").eq(1);
+            // $(e1).children().eq(0).html("参与者");
+            $(e1).children().eq(1).html((summary[23] == null) ? "0" : summary[23].TotalPoints);
+            var e1 = $(".numbers").eq(2);
+            // $(e1).children().eq(0).html("参与者");
+            $(e1).children().eq(1).html((summary[13] == null) ? "0" : summary[13].TotalPoints);
+            var e1 = $(".numbers").eq(3);
+            // $(e1).children().eq(0).html("参与者");
+            $(e1).children().eq(1).html((summary[33] == null) ? "0" : summary[33].TotalPoints);
+
         };
 
         var InitPage = function() {
 
-            $.get("http://localhost:5000/getSummary", function(data) {
+            $.get("http://192.168.0.108:5000/getSummary", function(data) {
                 var summary = [];
                 $.each(data, function(k, v) {
                     // console.log(JSON.stringify(k));
-                    if (v.Status == "0") {
+                    if (v.Status == "1") {
                         if (summary[v.UserNo] == null) {
                             summary[v.UserNo] = {};
                         }
+                        summary[v.UserNo].UserNo = v.UserNo;
                         summary[v.UserNo].TotalPoints = v.TotalPoints;
                         summary[v.UserNo].ExtTotalPoints = v.ExtTotalPoints;
                         summary[v.UserNo].TotalCnt = v.TotalCnt;

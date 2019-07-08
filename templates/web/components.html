@@ -68,7 +68,7 @@
                 events: function(info, successCallback, failureCallback) {
                     var events = [];
                     var userNo = localStorage.USER_NO;
-                    $.get("http://localhost:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
+                    $.get("http://192.168.0.108:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
                         dataList = data;
                         $.each(data, function(i, item) {
                             var content = {};
@@ -148,7 +148,7 @@
         var finish = function(utid) {
             console.log(utid);
 
-            $.get("http://localhost:5000/handleUserTask/" + utid + "", function(data) {
+            $.get("http://192.168.0.108:5000/handleUserTask/" + utid + "", function(data) {
                 $("#calendar").fullCalendar("updateEvent", events);
             });
         };
