@@ -29,7 +29,7 @@ def getTasksByDate(userNo, from_date):
 	sqlString = "SELECT UserTaskNo, Category, SubCategory, TaskName, FromDate, ToDate, CheckDate, Tasks.Point, UserTasks.Status  FROM UserTasks \
 		INNER JOIN Tasks ON UserTasks.TaskNo = Tasks.TaskNo \
 		WHERE UserNo = "+ userNo +" \
-		AND FromDate = '"+ from_date +"'"
+		AND '"+ from_date +"' BETWEEN FromDate AND ToDate"
 
 	#开始读取数据
 	query = (sqlString)

@@ -192,11 +192,11 @@
                     // UserTaskNo, Category, SubCategory, TaskName, Tasks.Point
                     var tmpString = "";
                     tmpString += "<tr class='" + (item.Status == 0 ? "tskpendding" : "tskdone") + "'>";
-                    tmpString += "	<td scope='row'>" + item.UserTaskNo + "</td>";
-                    tmpString += "	<td>" + item.Category + "</td>";
+                    // tmpString += "	<td scope='row'>" + item.UserTaskNo + "</td>";
+                    tmpString += "	<td>[" + item.Category + "]" + item.SubCategory + "</td>";
                     tmpString += "	<td>" + item.TaskName + "</td>";
-                    tmpString += "	<td>" + item.Point + "</td>";
-                    tmpString += "	<td>" + (item.Status == 0 ? "未完成" : "已完成") + "</td>";
+                    // tmpString += "	<td>" + item.Point + "</td>";
+                    // tmpString += "	<td>" + (item.Status == 0 ? "未完成" : "已完成") + "</td>";
                     tmpString += "	<td><button onclick='showTaskDetail(\"" + item.UserTaskNo + "\")'>" + (item.Status == 0 ? "完成" : "取消") + "</button></td>";
                     tmpString += "</tr>";
 
@@ -259,11 +259,11 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr class="tskheader">
-                                                <th>#</th>
+                                                <!-- <th>#</th> -->
                                                 <th>任务类别</th>
                                                 <th>任务名称</th>
-                                                <th>任务积分</th>
-                                                <th>任务状态</th>
+                                                <!-- <th>任务积分</th>
+                                                <th>任务状态</th> -->
                                                 <th>任务操作</th>
                                             </tr>
                                         </thead>
