@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/static/web/assets/css/demo.css">
 
     <script src='/static/js/jquery-3.4.1.js'></script>
+    <script src='/static/js/my.js'></script>
 
     <link href='/static/libs/fullcalendar-4.2.0/packages/core/main.css' rel='stylesheet' />
     <link href='/static/libs/fullcalendar-4.2.0/packages/daygrid/main.css' rel='stylesheet' />
@@ -68,7 +69,7 @@
                 events: function(info, successCallback, failureCallback) {
                     var events = [];
                     var userNo = localStorage.USER_NO;
-                    $.get("http://192.168.0.108:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
+                    $.get(sys.hostUrl+"/getTaskList/" + userNo + "/2019-07-01", function(data) {
                         dataList = data;
                         $.each(data, function(i, item) {
                             var content = {};
@@ -148,7 +149,7 @@
         var finish = function(utid) {
             console.log(utid);
 
-            $.get("http://192.168.0.108:5000/handleUserTask/" + utid + "", function(data) {
+            $.get(sys.hostUrl+"/handleUserTask/" + utid + "", function(data) {
                 $("#calendar").fullCalendar("updateEvent", events);
             });
         };

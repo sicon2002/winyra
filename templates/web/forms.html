@@ -15,6 +15,7 @@
     <link href='/static/libs/fullcalendar-4.2.0/packages/daygrid/main.css' rel='stylesheet' />
 
     <script src='/static/js/jquery-3.4.1.js'></script>
+    <script src='/static/js/my.js'></script>
     <style>
         .tblock {
             margin: 2px;
@@ -61,7 +62,7 @@
             var f = $("#inF").val();
 
             $.post(
-                "http://192.168.0.108:5000/handleUserTask/" + utid + "",
+                sys.hostUrl+"/handleUserTask/" + utid + "",
                 JSON.stringify({
                     "inA": a,
                     "inB": b,
@@ -211,7 +212,7 @@
             var total = 0;
             var done = 0;
             var pendding = 0;
-            $.get("http://192.168.0.108:5000/getTaskList/" + userNo + "/2019-07-01", function(data) {
+            $.get(sys.hostUrl+"/getTaskList/" + userNo + "/2019-07-01", function(data) {
 
                 $("#taskblock").html("");
                 $("#taskblocktitle").html("");

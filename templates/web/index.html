@@ -6,6 +6,7 @@
     <title>Winyra - 任务概览</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <script src='/static/js/jquery-3.4.1.js'></script>
+    <script src='/static/js/my.js'></script>
 
     <link rel="stylesheet" href="../../static/web/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/web/assets/css/ready.css">
@@ -36,7 +37,7 @@
 
         var InitPage = function() {
 
-            $.get("http://192.168.0.108:5000/getSummary", function(data) {
+            $.get(sys.hostUrl+"/getSummary", function(data) {
                 var summary = [];
                 $.each(data, function(k, v) {
                     // console.log(JSON.stringify(k));

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="/static/web/assets/css/ready.css">
     <script src='/static/js/jquery-3.4.1.js'></script>
+    <script src='/static/js/my.js'></script>
     <style>
         .tskpendding {
             background-color: #FF6666;
@@ -157,7 +158,7 @@
             var f = $("#inF").val();
 
             $.post(
-                "http://192.168.0.108:5000/handleUserTask/" + utid + "",
+                sys.hostUrl+"/handleUserTask/" + utid + "",
                 JSON.stringify({
                     "inA": a,
                     "inB": b,
