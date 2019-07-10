@@ -128,6 +128,9 @@
     console.log("当前登陆人的头像是：" + localStorage.USER_PHOTO_URL);
 
     $(document).ready(function() {
+        if (localStorage.USER_NO == "") {
+            window.location.href = "../login/index.html";
+        }
         $("#photo1").attr('src', "/static/web/assets/img/" + localStorage.USER_PHOTO_URL);
         $("#photo2").attr('src', "/static/web/assets/img/" + localStorage.USER_PHOTO_URL);
         $("#photo3").attr('src', "/static/web/assets/img/" + localStorage.USER_PHOTO_URL);

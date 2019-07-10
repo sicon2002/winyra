@@ -17,17 +17,18 @@
     <script src='/static/js/jquery-3.4.1.js'></script>
     <style>
         .tblock {
-            margin: 1px;
+            margin: 2px;
             float: left;
+            height: 20px;
             width: 20px;
         }
         
         .tblockDone {
-            background-color: #00ff00;
+            background-color: #66FF66;
         }
         
         .tblockPendding {
-            background-color: #ff0000;
+            background-color: #FF4444;
         }
     </style>
     <script>
@@ -81,7 +82,7 @@
         // 根据不同的任务类型显示需要输入的信息
         // input 参数: category 任务类型
         var showInfoByCtg = function(item, category) {
-            console.log("category:" + category);
+            // console.log("category:" + category);
             var actions = "";
             // if (category == "背诵新概念") {
             //     // 新概念
@@ -131,9 +132,22 @@
             $("#tskAction").html(actions);
         };
 
+        var isSelected = false;
+        var showCtg = function(ctg) {
+            console.log(ctg);
+            if (!isSelected) {
+                $("[data-category='" + ctg + "']").css("border", "solid");
+            } else {
+                $("[data-category='" + ctg + "']").css("border", "none");
+            }
+            isSelected = !isSelected;
+        };
+
         var showTaskDetail = function(itemNo) {
+            isSelected = false;
+            $("[data-category]").css("border", "none");
             var item = TskList[itemNo];
-            console.log(JSON.stringify(item));
+            //console.log(JSON.stringify(item));
             var tCategory = "<b>类别：</b>" + item.Category;
             var tSubCategory = "<b>子类：</b>" + item.SubCategory;
             var tName = "<b>名称：</b>" + item.TaskName;
@@ -144,11 +158,11 @@
             var tStatus = "<b>状态：</b>" + (item.Status == "0" ? "未完成" : "已完成");
             var htmlStr = "<div class='tskcontainer'>";
             htmlStr += "<div class='tskitem'>" + tCategory + "</div>";
-            htmlStr += "<div class='tskitem'>" + tSubCategory + "</div>";
+            htmlStr += "<div class='tskitem' onclick='showCtg(\"" + item.SubCategory + "\")'>" + tSubCategory + "</div>";
             htmlStr += "<div class='tskitem'>" + tName + "</div>";
             htmlStr += "<div class='tskitem'>" + tPoint + "</div>";
-            // htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
-            // htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
+            htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
+            htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
             htmlStr += "<div class='tskitem'>" + tStatus + "</div>";
             htmlStr += "<div class='tskitem'>" + tCheckDate + "</div>";
             htmlStr += "</div>";
@@ -156,6 +170,39 @@
             $("#tskBaseinfo").html(htmlStr);
 
             showInfoByCtg(item, item.SubCategory);
+        };
+
+        //date1:小日期   date2:大日期
+        function DateMinus(date1, date2) { 　　
+            var sdate = new Date(date1);  　　
+            var now = new Date(date2);  　　
+            var days = now.getTime() - sdate.getTime();  　　
+            var day = parseInt(days / (1000 * 60 * 60 * 24));  　　
+            return day; 
+        };
+
+        var getNSpaces = function(n) {
+            var htmlStr = "&nbsp;";
+            // for (var i = 0; i <= n; i++) {
+            //     htmlStr += "&nbsp;&nbsp;&nbsp;&nbsp;";
+            // }
+            return htmlStr;
+        };
+
+        var getCategoryStyle = function(ctg, sCtg) {
+            // console.log(ctg, sCtg);
+            // 英语 背诵新概念
+            var htmlStr = "";
+            switch (ctg) {
+                case "英语":
+                    htmlStr = "border-top:solid 7px #CCC";
+                    break;
+            }
+            return ""; //htmlStr;
+        };
+
+        var showCtgTasks = function(ctg, subCtg) {
+            console.log(ctg, subCtg);
         };
 
         var PageInit = function() {
@@ -171,8 +218,12 @@
                 $.each(data, function(i, item) {
                     TskList[item.UserTaskNo] = item;
 
+                    // var tDate = new Date(item.ToDate);
+                    // var fDate = new Date(item.FromDate);
+                    var days = DateMinus(item.FromDate, item.ToDate);
+
                     var tmpSpan = "";
-                    tmpSpan = "<div onclick='showTaskDetail(\"" + item.UserTaskNo + "\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>&nbsp;</div>"
+                    tmpSpan = "<div data-category='" + item.SubCategory + "' style='" + getCategoryStyle(item.Category, item.SubCategory) + "' onclick='showTaskDetail(\"" + item.UserTaskNo + "\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>" + getNSpaces(days) + "</div>"
 
                     $("#taskblock").append(tmpSpan);
 
