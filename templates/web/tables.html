@@ -192,7 +192,7 @@
 
         var PageInit = function() {
             var curDate = timeStamp2String(new Date().getTime());
-            $.get("http://192.168.0.108:5000/getTasksByDate/" + localStorage.USER_NO + "/" + curDate, function(data) {
+            $.get(sys.hostUrl+"/getTasksByDate/" + localStorage.USER_NO + "/" + curDate, function(data) {
 
                 var done = 0;
                 var pendding = 0;
