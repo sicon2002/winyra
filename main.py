@@ -23,7 +23,7 @@ def getWebPage2(dir, pageUrl):
 def getTasksByDate(userNo, from_date):
 
 	#链接数据库
-	conn = pymysql.connect(user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	conn = pymysql.connect(host='94.191.29.192', user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	#从数据库中读取数据的脚本
 	sqlString = "SELECT UserTaskNo, Category, SubCategory, TaskName, FromDate, ToDate, CheckDate, Tasks.Point, UserTasks.Status  FROM UserTasks \
@@ -70,7 +70,7 @@ def handleUserTask(usertask_no):
 
 	print Point
 
-	conn = pymysql.connect(user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	sqlString = "UPDATE UserTasks \
 		SET Status = (Status - 1)*(Status - 1), \
@@ -95,7 +95,7 @@ def handleUserTask(usertask_no):
 @app.route('/getTaskList/<my_no>/<from_date>')
 def getTaskList(my_no, from_date):
 
-	conn = pymysql.connect(user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	sqlString = "SELECT UserTaskNo, Tasks.TaskNo, Category, SubCategory, TaskName, TaskDesc, UserTasks.Status, Tasks.Point, \
 					DATE_FORMAT(FromDate, '%Y-%m-%d') FromDate, \
@@ -105,9 +105,9 @@ def getTaskList(my_no, from_date):
 				INNER JOIN UserTasks ON Tasks.TaskNo = UserTasks.TaskNo \
 				WHERE IsValid = 1 \
 				AND UserTasks.UserNo = "+ my_no +" \
-				AND FromDate BETWEEN date_add('"+ from_date +"', interval -10 day) AND date_add('"+ from_date +"', interval 100 day) \
+				AND FromDate BETWEEN date_add('"+ from_date +"', interval -100 day) AND date_add('"+ from_date +"', interval 100 day) \
 				ORDER BY FromDate, UserTaskNo \
-				LIMIT 1, 500"
+				LIMIT 0, 500"
 
 	query = (sqlString)
 	cursor.execute(query)
@@ -137,7 +137,7 @@ def getTaskList(my_no, from_date):
 @app.route('/getSummary')
 def getSummary():
 
-	conn = pymysql.connect(user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	sqlString = "SELECT UserNo, Status, SUM(Point) TotalPoints, SUM(ExtPoint) TotalExtPoints, COUNT(1) TotalCnt FROM UserTasks \
 		GROUP BY UserNo, Status"
@@ -166,7 +166,7 @@ def login():
 	userNo = data['username']
 	password = data['password']
 
-	conn = pymysql.connect(user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	query = ('select NO, NAME, PhotoUrl from Users WHERE NO="'+ userNo +'" AND PWD="'+ password +'"')
 	cursor.execute(query)
@@ -187,7 +187,7 @@ def getMemberList():
 
 	htmlString = ""
 
-	conn = pymysql.connect(user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
 	cursor = conn.cursor()
 	query = ('select ID, NAME from Users')
 	cursor.execute(query)
