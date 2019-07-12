@@ -62,7 +62,7 @@
             var f = $("#inF").val();
 
             $.post(
-                sys.hostUrl+"/handleUserTask/" + utid + "",
+                sys.hostUrl + "/handleUserTask/" + utid + "",
                 JSON.stringify({
                     "inA": a,
                     "inB": b,
@@ -212,7 +212,7 @@
             var total = 0;
             var done = 0;
             var pendding = 0;
-            $.get(sys.hostUrl+"/getTaskList/" + userNo + "/2019-07-01", function(data) {
+            $.get(sys.hostUrl + "/getTaskList/" + userNo + "/2019-07-01", function(data) {
 
                 $("#taskblock").html("");
                 $("#taskblocktitle").html("");
@@ -258,7 +258,7 @@
             <div class="content">
                 <div class="container-fluid">
                     <h4 class="page-title">
-                        任务状态一览图
+                        任务状态一览图.
                     </h4>
                     <div class="row">
                         <div class="col-md-12">
