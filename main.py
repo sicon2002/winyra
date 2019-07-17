@@ -80,6 +80,7 @@ def handleUserTask(usertask_no):
             D = '"+ D +"', \
             E = '"+ E +"', \
             F = '"+ F +"', \
+			LastUpdate = Now(), \
 			Point = "+ str(Point) +" \
 		WHERE UserTaskNo = "+ usertask_no +""
 
