@@ -74,13 +74,14 @@ def handleUserTask(usertask_no):
 	cursor = conn.cursor()
 	sqlString = "UPDATE UserTasks \
 		SET Status = (Status - 1)*(Status - 1), \
-            A = '"+ A +"', \
-            B = '"+ B +"', \
-            C = '"+ C +"', \
-            D = '"+ D +"', \
-            E = '"+ E +"', \
-            F = '"+ F +"', \
-			Point = "+ str(Point) +" \
+           	A = '"+ A +"', \
+           	B = '"+ B +"', \
+           	C = '"+ C +"', \
+           	D = '"+ D +"', \
+           	E = '"+ E +"', \
+           	F = '"+ F +"', \
+		LastUpdate = Now(), \
+		Point = "+ str(Point) +" \
 		WHERE UserTaskNo = "+ usertask_no +""
 
 	print(sqlString)
