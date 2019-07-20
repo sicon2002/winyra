@@ -58,11 +58,13 @@
         }
 
         var showTaskDetail = function(itemNo) {
+            console.log(itemNo);
             var item = tskList[itemNo];
+            console.log(tskList);
             var tCategory = "<b>类别：</b>" + item.Category;
             var tSubCategory = "<b>子类：</b>" + item.SubCategory;
             var tName = "<b>名称：</b>" + item.TaskName;
-            var tPoint = "<b>分值：</b>" + item.Point;
+            var tPoint = "<b>分值：</b>基础分值 10分"; // + item.Point;
             var tFromDate = "<b>开始日期：</b>" + timeStamp2String(new Date(item.FromDate));
             var tToDate = "<b>结束日期：</b>" + timeStamp2String(new Date(item.ToDate));
             var tCheckDate = "<b>检查日期：</b>" + timeStamp2String(new Date(item.CheckDate));
@@ -72,68 +74,22 @@
             htmlStr += "<div class='tskitem'>" + tSubCategory + "</div>";
             htmlStr += "<div class='tskitem'>" + tName + "</div>";
             htmlStr += "<div class='tskitem'>" + tPoint + "</div>";
-            htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
-            htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
-            htmlStr += "<div class='tskitem'>" + tStatus + "</div>";
-            htmlStr += "<div class='tskitem'>" + tCheckDate + "</div>";
+            htmlStr += "<div class='tskitem'> <b>说明：</b>此任务为常规任务，可以在任何时间段内完成，请认真填写具体情况，后续会根据规则进行分值计算</div>";
+            // htmlStr += "<div class='tskitem'>" + tFromDate + "</div>";
+            // htmlStr += "<div class='tskitem'>" + tToDate + "</div>";
+            // htmlStr += "<div class='tskitem'>" + tStatus + "</div>";
+            // htmlStr += "<div class='tskitem'>" + tCheckDate + "</div>";
             htmlStr += "</div>";
 
             $("#tskBaseinfo").html(htmlStr);
 
             showInfoByCtg(item, item.SubCategory);
         };
-
-        // var finish = function(utid) {
-        //     console.log(utid);
-
-        //     $.get("http://192.168.0.108:5000/handleUserTask/" + utid + "", function(data) {
-        //         // $("#calendar").fullCalendar("updateEvent", events);
-        //         PageInit();
-        //     });
-        // };
-
         // 根据不同的任务类型显示需要输入的信息
         // input 参数: category 任务类型
         var showInfoByCtg = function(item, category) {
             console.log("category:" + category);
             var actions = "";
-            // if (category == "背诵新概念") {
-            //     // 新概念
-            //     actions += "任务用时：<input /> <br />";
-            //     actions += "错误数量：<input /> <br />";
-            //     actions += "其他说明：<input /> <br />";
-            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
-            // } else if (category == "自学课本") {
-            //     actions += "其他说明：<input /> <br />";
-            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
-            // } else if (category == "51Talk") {
-            //     actions += "其他说明：<input /> <br />";
-            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
-            // } else if (category == "物理讲课") {
-            //     actions += "任务用时：<input /> <br />";
-            //     actions += "其他说明：<input /> <br />";
-            //     actions += "<button onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
-            // }
-            // 物理数学
-            // 自学：说明
-            // 测试：分数，说明
-            // 讲课：用时，说明
-            // 听课：说明
-
-            // 51Talk
-            // 说明
-
-            // 运动
-            // 游泳：时间，状态，说明
-            // 跑步：时间，状态，公里数，说明
-
-            // 钢琴
-            // 时间，状态，流利程度，说明
-
-            // Winyra
-            // 自学：说明
-            // 讲课：用时，说明
-            // 实践：用时，成果
 
             actions += "任务用时：<input id='inA' class='my-control' /> <br />";
             actions += "错误数量：<input id='inB' class='my-control' /> <br />";
@@ -141,14 +97,14 @@
             actions += "自我评测：<input id='inD' class='my-control' /> <br />";
             actions += "总公里数：<input id='inE' class='my-control' /> <br />";
             actions += "其他说明：<textarea id='inF' class='my-control' ></textarea> <br />";
-            actions += "<button class='btn btn-success' onclick='finish(" + item.UserTaskNo + ")'>提交</button>";
+            actions += "<button class='btn btn-success' onclick=\"finish('" + item.UserTaskNo + "')\">提交</button>";
             $("#tskAction").html(actions);
         };
 
         var finish = function(utid) {
-
+            console.log(utid);
             var tsk = tskList[utid];
-            console.log(tsk.Point);
+            console.log(tsk);
 
             var a = $("#inA").val();
             var b = $("#inB").val();
@@ -158,7 +114,7 @@
             var f = $("#inF").val();
 
             $.post(
-                sys.hostUrl + "/handleUserTask/" + utid + "",
+                sys.hostUrl + "/handleUserEverydayTask",
                 JSON.stringify({
                     "inA": a,
                     "inB": b,
@@ -166,7 +122,8 @@
                     "inD": d,
                     "inE": e,
                     "inF": f,
-                    "Point": tsk.Point
+                    "inDESC": tsk.Category + ":" + tsk.SubCategory + ":" + tsk.TaskName,
+                    "inUN": localStorage.USER_NO
                 }),
                 function(data) {
                     PageInit();
@@ -191,44 +148,43 @@
         }
 
         var PageInit = function() {
-            var curDate = timeStamp2String(new Date().getTime());
-            $.get(sys.hostUrl + "/getTasksByDate/" + localStorage.USER_NO + "/" + curDate, function(data) {
 
-                var done = 0;
-                var pendding = 0;
+            var data = [{
+                UserTaskNo: "T001",
+                Category: "音乐",
+                TaskName: "练习钢琴基础",
+                SubCategory: "钢琴"
+            }, {
+                UserTaskNo: "T002",
+                Category: "运动",
+                TaskName: "跑步挑战",
+                SubCategory: "跑步"
+            }, {
+                UserTaskNo: "T003",
+                Category: "读书",
+                TaskName: "全球通史",
+                SubCategory: "历史"
+            }, ];
 
-                $("#taskList").html("");
-                $.each(data, function(i, item) {
-                    // UserTaskNo, Category, SubCategory, TaskName, Tasks.Point
-                    var tmpString = "";
-                    tmpString += "<tr class='" + (item.Status == 0 ? "tskpendding" : "tskdone") + "'>";
-                    // tmpString += "	<td scope='row'>" + item.UserTaskNo + "</td>";
-                    tmpString += "	<td>[" + item.Category + "]" + item.SubCategory + "</td>";
-                    tmpString += "	<td>" + item.TaskName + "</td>";
-                    // tmpString += "	<td>" + item.Point + "</td>";
-                    // tmpString += "	<td>" + (item.Status == 0 ? "未完成" : "已完成") + "</td>";
-                    tmpString += "	<td><button onclick='showTaskDetail(\"" + item.UserTaskNo + "\")'>" + (item.Status == 0 ? "完成" : "取消") + "</button></td>";
-                    tmpString += "</tr>";
+            $("#taskList").html("");
+            $.each(data, function(i, item) {
+                // UserTaskNo, Category, SubCategory, TaskName, Tasks.Point
+                var tmpString = "";
+                tmpString += "<tr class='tskpendding'>";
+                // tmpString += "	<td scope='row'>" + item.UserTaskNo + "</td>";
+                tmpString += "	<td>[" + item.Category + "]" + item.SubCategory + "</td>";
+                tmpString += "	<td>" + item.TaskName + "</td>";
+                // tmpString += "	<td>" + item.Point + "</td>";
+                // tmpString += "	<td>" + (item.Status == 0 ? "未完成" : "已完成") + "</td>";
+                tmpString += "	<td><button onclick='showTaskDetail(\"" + item.UserTaskNo + "\")'>" + "完成" + "</button></td>";
+                tmpString += "</tr>";
 
-                    $("#taskList").append(tmpString);
+                $("#taskList").append(tmpString);
 
-                    if (item.Status == "1")
-                        done += 1;
-                    else
-                        pendding += 1;
-
-
-                    tskList[item.UserTaskNo] = item;
-                });
-
-                var msgStr = (pendding == 0) ?
-                    "<h6 style='color:red'>恭喜您完成了今天的所有任务，好好出去玩吧！</h6>" :
-                    "你还有" + pendding + "项任务没有完成，加油哦!";
-
-                $("#tskmsg").html(msgStr);
-                ShowPie(done, pendding);
+                tskList[item.UserTaskNo] = item;
             });
-        };
+            console.log(tskList);
+        }
     </script>
 </head>
 
@@ -246,21 +202,8 @@
                     <h4 class="page-title">副表</h4>
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">任务情况概览</div>
-                                </div>
-                                <div class="card-body">
-                                    <div id="monthlyChart" class="chart chart-pie"></div>
-                                </div>
-                                <div class="card-body">
-                                    <div id="tskmsg">恭喜您完成了今天的所有任务！</div>
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-title">任务列表</div>

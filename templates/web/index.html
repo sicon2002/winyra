@@ -19,25 +19,27 @@
 
         var ShowItems = function(summary) {
 
+            console.log(summary);
+
             var e1 = $(".numbers").eq(0);
             $(e1).children().eq(0).html("参与者");
             $(e1).children().eq(1).html("3人");
 
             var e1 = $(".numbers").eq(1);
             // $(e1).children().eq(0).html("参与者");
-            $(e1).children().eq(1).html((summary[23] == null) ? "0" : summary[23].TotalPoints);
+            $(e1).children().eq(1).html((summary[23] == null) ? "0" : summary[23].TotalPoints + summary[23].TotalExtPoints);
             var e1 = $(".numbers").eq(2);
             // $(e1).children().eq(0).html("参与者");
-            $(e1).children().eq(1).html((summary[13] == null) ? "0" : summary[13].TotalPoints);
+            $(e1).children().eq(1).html((summary[13] == null) ? "0" : summary[13].TotalPoints + summary[13].TotalExtPoints);
             var e1 = $(".numbers").eq(3);
             // $(e1).children().eq(0).html("参与者");
-            $(e1).children().eq(1).html((summary[33] == null) ? "0" : summary[33].TotalPoints);
+            $(e1).children().eq(1).html((summary[33] == null) ? "0" : summary[33].TotalPoints + summary[33].TotalExtPoints);
 
         };
 
         var InitPage = function() {
 
-            $.get(sys.hostUrl+"/getSummary", function(data) {
+            $.get(sys.hostUrl + "/getSummary", function(data) {
                 var summary = [];
                 $.each(data, function(k, v) {
                     // console.log(JSON.stringify(k));
@@ -47,7 +49,7 @@
                         }
                         summary[v.UserNo].UserNo = v.UserNo;
                         summary[v.UserNo].TotalPoints = v.TotalPoints;
-                        summary[v.UserNo].ExtTotalPoints = v.ExtTotalPoints;
+                        summary[v.UserNo].TotalExtPoints = v.TotalExtPoints;
                         summary[v.UserNo].TotalCnt = v.TotalCnt;
                     } else {
 
