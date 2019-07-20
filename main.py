@@ -55,6 +55,32 @@ def getTasksByDate(userNo, from_date):
 
 	return jsonify(payload)
 
+@app.route('/handleUserEverydayTask', methods=['POST'])
+def handleUserEverydayTask():
+
+	data = json.loads(request.get_data(as_text=True))
+	A = data['inA']
+	B = data['inB']
+	C = data['inC']
+	D = data['inD']
+	E = data['inE']
+	F = data['inF']
+	UN = data['inUN']
+	DESC = data['inDESC']
+
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	cursor = conn.cursor()
+	sqlString = "INSERT INTO UserTasks(UserNo, TaskNo, Status, Point, 	ExtPoint, `Desc`, A, B, C, D, E, F, LastUpdate) \
+		VALUES("+ UN +",100,1,10,0,'"+ DESC +"', '"+A+"','"+B+"','"+C+"','"+D+"','"+E+"','"+F+"',Now())"
+
+	print(sqlString)
+	query = (sqlString)
+	cursor.execute(query)
+	conn.commit()
+
+	cursor.close()
+	conn.close()
+	return "ok"
 
 @app.route('/handleUserTask/<usertask_no>', methods=['POST'])
 def handleUserTask(usertask_no):
