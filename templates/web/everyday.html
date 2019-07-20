@@ -129,6 +129,7 @@
                     PageInit();
                     $("#tskAction").html("");
                     $("#tskBaseinfo").html("");
+                    $("#" + utid + "").css("background-color", "#0066CC");
                 }
             )
         };
@@ -170,7 +171,7 @@
             $.each(data, function(i, item) {
                 // UserTaskNo, Category, SubCategory, TaskName, Tasks.Point
                 var tmpString = "";
-                tmpString += "<tr class='tskpendding'>";
+                tmpString += "<tr id='" + item.UserTaskNo + "' class='tskpendding'>";
                 // tmpString += "	<td scope='row'>" + item.UserTaskNo + "</td>";
                 tmpString += "	<td>[" + item.Category + "]" + item.SubCategory + "</td>";
                 tmpString += "	<td>" + item.TaskName + "</td>";
