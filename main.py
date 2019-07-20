@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*- 
 
 from flask import Flask, render_template, jsonify, request
-import pymysql
+import pymysql, sys
 import json
+
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 
 app = Flask(__name__ ,static_url_path='/static')
 
