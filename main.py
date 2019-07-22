@@ -190,6 +190,35 @@ def getSummary():
 
 	return jsonify(payload)
 
+@app.route('/getMaths')
+def getMaths():
+
+	conn = pymysql.connect(host='94.191.29.192',user='root', password='!QAZ2wsx', database='Winyra', charset='utf8')
+	cursor = conn.cursor()
+	sqlString = "SELECT UserNo, TaskNo, C FROM UserTasks WHERE TaskNo IN \
+				( \
+					SELECT TaskNo FROM Tasks WHERE SubCategory = '测试' AND Category = '数学' \
+				) \
+				AND C IS NOT NULL"
+
+	query = (sqlString)
+	cursor.execute(query)
+
+	payload = []
+
+	for (UserNo, TaskNo, C) in cursor:
+		#print UserNo, TaskNo, C
+		content = dict()
+		content["UserNo"] = UserNo
+		content["TaskNo"] = TaskNo
+		content["C"] = C
+		payload.append(content)
+
+	cursor.close()
+	conn.close()
+
+	return jsonify(payload)
+
 @app.route('/login', methods=['POST'])
 def login():
 	data = json.loads(request.get_data(as_text=True))
