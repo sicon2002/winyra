@@ -58,6 +58,7 @@
         var InitPage = function () {
 
             $.get(sys.hostUrl + "/getSummary", function (data) {
+                console.log(sys.hostUrl + "/getSummary");
                 var summary = [];
                 $.each(data, function (k, v) {
                     // console.log(JSON.stringify(k));
