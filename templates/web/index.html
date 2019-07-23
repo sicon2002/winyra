@@ -4,7 +4,8 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Winyra - 任务概览</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
     <script src='/static/js/jquery-3.4.1.js'></script>
     <script src='/static/js/my.js'></script>
 
@@ -12,22 +13,20 @@
     <link rel="stylesheet" href="../../static/web/assets/css/ready.css">
     <link rel="stylesheet" href="../../static/web/assets/css/demo.css">
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // numbers
             InitPage();
-
             GetMaths();
 
         });
 
-        var ShowItems = function(summary) {
+        var ShowItems = function (summary) {
 
             // console.log(summary);
 
             var e1 = $(".numbers").eq(0);
             $(e1).children().eq(0).html("参与者");
             $(e1).children().eq(1).html("3人");
-
             var e1 = $(".numbers").eq(1);
             // $(e1).children().eq(0).html("参与者");
             $(e1).children().eq(1).html((summary[23] == null) ? "0" : summary[23].TotalPoints + summary[23].TotalExtPoints);
@@ -40,11 +39,11 @@
 
         };
 
-        var GetMaths = function() {
-            $.get("http://localhost:5000/getMaths", function(linda) {
+        var GetMaths = function () {
+            $.get("http://localhost:5000/getMaths", function (linda) {
                 var htmlString = "";
 
-                $.each(linda, function(k, v) {
+                $.each(linda, function (k, v) {
                     var userNo = v.UserNo;
                     var taskNo = v.TaskNo;
                     var Score = v.C;
@@ -56,11 +55,11 @@
             });
         }
 
-        var InitPage = function() {
+        var InitPage = function () {
 
-            $.get(sys.hostUrl + "/getSummary", function(data) {
+            $.get(sys.hostUrl + "/getSummary", function (data) {
                 var summary = [];
-                $.each(data, function(k, v) {
+                $.each(data, function (k, v) {
                     // console.log(JSON.stringify(k));
                     if (v.Status == "1") {
                         if (summary[v.UserNo] == null) {
@@ -94,7 +93,6 @@
         {% include "master/header.html" ignore missing %}
         <!-- sider -->
         {% include "master/sider.html" ignore missing %}
-
 
         <!-- main part start -->
 
@@ -222,7 +220,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr/>
+                                    <hr />
                                     <div class="row">
                                         <div class="col-5">
                                             <div class="icon-big text-center">
@@ -236,6 +234,37 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        [50,+♾) 分悬赏任务
+                                    </h4>
+
+                                </div>
+                                <div class="card-body">
+                                    1. 【50分】修改数学成绩不显示的问题 <br/>
+                                    2. 【100分】任务日历添加可提交修改功能<br/>
+                                    3. 【100分】今日日程增加显示前一天/后一天功能 <br/>
+                                    4. 【100分】附表增加游泳，跳绳，要我起坐等 <br/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        [10,50) 分悬赏任务
+                                    </h4>
+
+                                </div>
+                                <div class="card-body">
+                                    1. 【10分】修改标题 <br/>
                                 </div>
                             </div>
                         </div>
