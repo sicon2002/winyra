@@ -4,8 +4,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Winyra - 任务概览</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-        name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <script src='/static/js/jquery-3.4.1.js'></script>
     <script src='/static/js/my.js'></script>
 
@@ -13,14 +12,14 @@
     <link rel="stylesheet" href="../../static/web/assets/css/ready.css">
     <link rel="stylesheet" href="../../static/web/assets/css/demo.css">
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // numbers
             InitPage();
             GetMaths();
 
         });
 
-        var ShowItems = function (summary) {
+        var ShowItems = function(summary) {
 
             // console.log(summary);
 
@@ -39,11 +38,11 @@
 
         };
 
-        var GetMaths = function () {
-            $.get("http://localhost:5000/getMaths", function (linda) {
+        var GetMaths = function() {
+            $.get("http://localhost:5000/getMaths", function(linda) {
                 var htmlString = "";
 
-                $.each(linda, function (k, v) {
+                $.each(linda, function(k, v) {
                     var userNo = v.UserNo;
                     var taskNo = v.TaskNo;
                     var Score = v.C;
@@ -55,12 +54,12 @@
             });
         }
 
-        var InitPage = function () {
+        var InitPage = function() {
 
-            $.get(sys.hostUrl + "/getSummary", function (data) {
+            $.get(sys.hostUrl + "/getSummary", function(data) {
                 console.log(sys.hostUrl + "/getSummary");
                 var summary = [];
-                $.each(data, function (k, v) {
+                $.each(data, function(k, v) {
                     // console.log(JSON.stringify(k));
                     if (v.Status == "1") {
                         if (summary[v.UserNo] == null) {
@@ -100,7 +99,7 @@
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
-                    <h4 class="page-title">仪表盘</h4>
+                    <h4 class="page-title">排行榜</h4>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card card-stats card-warning">
@@ -249,11 +248,7 @@
 
                                 </div>
                                 <div class="card-body">
-                                    1. 【50分】修改数学成绩不显示的问题 <br/>
-                                    2. 【100分】任务日历添加可提交修改功能<br/>
-                                    3. 【100分】今日日程增加显示前一天/后一天功能 <br/>
-                                    4. 【100分】附表增加游泳，跳绳，要我起坐等 <br/>
-                                    5. 【100分】跨域问题，不用每次都修改my.js <br/>
+                                    1. 【50分】修改数学成绩不显示的问题 <br/> 2. 【100分】任务日历添加可提交修改功能<br/> 3. 【100分】今日日程增加显示前一天/后一天功能 <br/> 4. 【100分】附表增加游泳，跳绳，要我起坐等 <br/> 5. 【100分】跨域问题，不用每次都修改my.js <br/>
                                 </div>
                             </div>
                         </div>
