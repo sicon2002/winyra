@@ -4,9 +4,11 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Winyra - 任务状态</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
     <link rel="stylesheet" href="/static/web/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="/static/web/assets/css/ready.css">
     <link rel="stylesheet" href="/static/web/assets/css/demo.css">
 
@@ -23,13 +25,18 @@
             height: 20px;
             width: 20px;
         }
-        
+
         .tblockDone {
             background-color: #66FF66;
         }
-        
+
         .tblockPendding {
             background-color: #FF4444;
+        }
+
+        .tbtitle {
+            font-size: 14px;
+            font-weight: bold;
         }
     </style>
     <script>
@@ -47,7 +54,7 @@
             return year + "-" + month + "-" + date;
         }
 
-        var finish = function(utid) {
+        var finish = function (utid) {
 
             console.log(utid);
             var tsk = TskList[utid];
@@ -72,7 +79,7 @@
                     "inF": f,
                     "Point": tsk.Point
                 }),
-                function(data) {
+                function (data) {
                     PageInit();
                     $("#tskAction").html("");
                     $("#tskBaseinfo").html("");
@@ -82,7 +89,7 @@
 
         // 根据不同的任务类型显示需要输入的信息
         // input 参数: category 任务类型
-        var showInfoByCtg = function(item, category) {
+        var showInfoByCtg = function (item, category) {
             // console.log("category:" + category);
             var actions = "";
             // if (category == "背诵新概念") {
@@ -134,7 +141,7 @@
         };
 
         var isSelected = false;
-        var showCtg = function(ctg) {
+        var showCtg = function (ctg) {
             console.log(ctg);
             if (!isSelected) {
                 $("[data-category='" + ctg + "']").css("border", "solid");
@@ -144,7 +151,7 @@
             isSelected = !isSelected;
         };
 
-        var showTaskDetail = function(itemNo) {
+        var showTaskDetail = function (itemNo) {
             isSelected = false;
             $("[data-category]").css("border", "none");
             var item = TskList[itemNo];
@@ -174,15 +181,15 @@
         };
 
         //date1:小日期   date2:大日期
-        function DateMinus(date1, date2) { 　　
-            var sdate = new Date(date1);  　　
-            var now = new Date(date2);  　　
-            var days = now.getTime() - sdate.getTime();  　　
-            var day = parseInt(days / (1000 * 60 * 60 * 24));  　　
-            return day; 
+        function DateMinus(date1, date2) {
+            var sdate = new Date(date1);
+            var now = new Date(date2);
+            var days = now.getTime() - sdate.getTime();
+            var day = parseInt(days / (1000 * 60 * 60 * 24));
+            return day;
         };
 
-        var getNSpaces = function(n) {
+        var getNSpaces = function (n) {
             var htmlStr = "&nbsp;";
             // for (var i = 0; i <= n; i++) {
             //     htmlStr += "&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -190,7 +197,7 @@
             return htmlStr;
         };
 
-        var getCategoryStyle = function(ctg, sCtg) {
+        var getCategoryStyle = function (ctg, sCtg) {
             // console.log(ctg, sCtg);
             // 英语 背诵新概念
             var htmlStr = "";
@@ -202,21 +209,21 @@
             return ""; //htmlStr;
         };
 
-        var showCtgTasks = function(ctg, subCtg) {
+        var showCtgTasks = function (ctg, subCtg) {
             console.log(ctg, subCtg);
         };
 
-        var PageInit = function() {
+        var PageInit = function () {
             var userNo = localStorage.USER_NO;
 
             var total = 0;
             var done = 0;
             var pendding = 0;
-            $.get(sys.hostUrl + "/getTaskList/" + userNo + "/2019-07-01", function(data) {
+            $.get(sys.hostUrl + "/getTaskList/" + userNo + "/2019-07-01", function (data) {
 
                 $("#taskblock").html("");
                 $("#taskblocktitle").html("");
-                $.each(data, function(i, item) {
+                $.each(data, function (i, item) {
                     TskList[item.UserTaskNo] = item;
 
                     // var tDate = new Date(item.ToDate);
@@ -224,7 +231,7 @@
                     var days = DateMinus(item.FromDate, item.ToDate);
 
                     var tmpSpan = "";
-                    tmpSpan = "<div data-category='" + item.SubCategory + "' style='" + getCategoryStyle(item.Category, item.SubCategory) + "' onclick='showTaskDetail(\"" + item.UserTaskNo + "\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>" + getNSpaces(days) + "</div>"
+                    tmpSpan = "<span id='TSK_" + item.UserTaskNo + "' data-category='" + item.SubCategory + "' style='" + getCategoryStyle(item.Category, item.SubCategory) + "' onclick='showTaskDetail(\"" + item.UserTaskNo + "\")' title='" + item.CheckDate + ":" + item.TaskName + "' class='tblock " + (item.Status == "1" ? "tblockDone" : "tblockPendding") + "'>" + getNSpaces(days) + "</span>"
 
                     $("#taskblock").append(tmpSpan);
 
@@ -240,7 +247,162 @@
             });
         };
 
-        $(document).ready(function() {
+        var transform = function (t) {
+            switch (t) {
+                case 0:
+                    transform_formal();
+                    break;
+                case 1:
+                    transform_reset();
+                    break;
+                case 2:
+                    transform_animate();
+                    break;
+                case 3:
+                    transform_animate3();
+                    break;
+                case 4:
+                    transform_animate4();
+                    break;
+                case 5:
+                    transform_animate4();
+                    break;
+                default:
+                    break;
+            }
+        };
+        var transform_reset = function () {
+            $("#taskblock2").html("");
+            $("#taskblock").html("");
+            PageInit();
+        };
+
+        var transform_animate5 = function () {
+            var htmlString = "";
+            $.each(TskList, function (k, v) {
+                if (v != null) {
+                    setTimeout(function () {
+                        var tmpDiv = $("#TSK_" + v.UserTaskNo + "");
+                        tmpDiv.animate({ height: "" + parseInt(Math.random() * 500) + "px", width: "" + parseInt(Math.random() * 500) + "px" });
+                        tmpDiv.fadeOut();
+
+                        tmpDiv.fadeIn();
+                        tmpDiv.animate({ height: "20px", width: "20px" });
+                    }, parseInt(Math.random() * 500));
+                }
+            });
+        };
+
+        var transform_animate4 = function () {
+            var htmlString = "";
+            $.each(TskList, function (k, v) {
+                if (v != null) {
+                    setTimeout(function () {
+                        var tmpDiv = $("#TSK_" + v.UserTaskNo + "");
+                        tmpDiv.animate({ height: "" + parseInt(Math.random() * 500) + "px", width: "" + parseInt(Math.random() * 500) + "px" }, parseInt(Math.random() * 5000));
+                        tmpDiv.fadeOut();
+
+                        tmpDiv.fadeIn();
+                        tmpDiv.animate({ height: "20px", width: "20px" });
+                    }, parseInt(Math.random() * 500));
+                }
+            });
+        };
+
+        var transform_animate3 = function () {
+            var htmlString = "";
+            var ctgList = [];
+            $.each(TskList, function (k, v) {
+                if (v != null && $.inArray(v.Category, ctgList) < 0) {
+                    ctgList.push(v.Category);
+                }
+            });
+
+            // console.log(ctgList.length);
+            $.each(ctgList, function (k, v) {
+                htmlString += "<div class='card'><div class='tbtitle b'>" + v + "</div><div class='c' data-ctg='" + v + "'></div></div>";
+            });
+            $("#taskblock2").html(htmlString);
+
+            var intT = 10;
+            $.each(TskList, function (k, v) {
+                if (v != null) {
+                    setTimeout(function () {
+                        var tmpDiv = $("#TSK_" + v.UserTaskNo + "");
+                        tmpDiv.fadeOut();
+                        $("[data-ctg='" + v.Category + "']").append(tmpDiv);
+                        tmpDiv.fadeIn();
+                        tmpDiv.animate({ height: "20px", width: "20px" });
+                    }, intT);
+                    intT += 10;
+                }
+            });
+        };
+
+        // transform
+        var transform_animate = function () {
+            var htmlString = "";
+            var ctgList = [];
+            $.each(TskList, function (k, v) {
+                if (v != null && $.inArray(v.Category, ctgList) < 0) {
+                    ctgList.push(v.Category);
+                }
+            });
+
+            // console.log(ctgList.length);
+            $.each(ctgList, function (k, v) {
+                htmlString += "<div class='card'><div class='tbtitle b'>" + v + "</div><div class='c' data-ctg='" + v + "'></div></div>";
+            });
+            $("#taskblock2").html(htmlString);
+
+            var intT = 40;
+            $.each(TskList, function (k, v) {
+                if (v != null) {
+                    setTimeout(function () {
+                        var tmpDiv = $("#TSK_" + v.UserTaskNo + "");
+                        tmpDiv.animate({ height: "400px", width: "400px" });
+                        tmpDiv.fadeOut();
+                        $("[data-ctg='" + v.Category + "']").append(tmpDiv);
+                        tmpDiv.fadeIn();
+                        tmpDiv.animate({ height: "20px", width: "20px" });
+                    }, intT);
+                    intT += 40;
+                }
+            });
+        };
+
+        // transform
+        var transform_formal = function () {
+            var htmlString = "";
+            var ctgList = [];
+            $.each(TskList, function (k, v) {
+                if (v != null && $.inArray(v.Category, ctgList) < 0) {
+                    ctgList.push(v.Category);
+                }
+            });
+
+            // console.log(ctgList.length);
+            $.each(ctgList, function (k, v) {
+                htmlString += "<div class='card'><div class='tbtitle b'>" + v + "</div><div class='c' data-ctg='" + v + "'></div></div>";
+            });
+            $("#taskblock2").html(htmlString);
+
+            var intT = 40;
+            $.each(TskList, function (k, v) {
+                if (v != null) {
+                    setTimeout(function () {
+                        var tmpDiv = $("#TSK_" + v.UserTaskNo + "");
+                        tmpDiv.fadeOut();
+                        $("[data-ctg='" + v.Category + "']").append(tmpDiv);
+                        tmpDiv.fadeIn();
+                    }, intT);
+                    intT += 40;
+                }
+            });
+
+        };
+
+        $(document).ready(function () {
             PageInit();
         });
     </script>
@@ -271,6 +433,21 @@
                                 </div>
                                 <div id="taskblock" class="card-body">
                                 </div>
+
+
+                                <div class="card-body">
+                                    <button onclick="transform(0)" class='btn btn-success'>TRANSFORM ONE</button>
+                                    <button onclick="transform(1)" class='btn btn-warning'>RESET ONE</button>
+                                    <button onclick="transform(2)" class='btn btn-success'>TRANSFORM TWO </button>
+                                    <button onclick="transform(3)" class='btn btn-success'>TRANSFORM THREE</button>
+                                    <button onclick="transform(4)" class='btn btn-warning'>RESET TWO</button>
+                                    <button onclick="transform(5)" class='btn btn-warning'>RESET THREE</button>
+
+                                </div>
+
+                                <div id="taskblock2" class="card-body">
+                                </div>
+
                                 <hr />
                                 <div class="card-body">
                                     <div class="row">
